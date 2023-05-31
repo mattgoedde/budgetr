@@ -1,0 +1,91 @@
+@inject ISnackbar Snackbar
+
+@inject ILogger<IncomeTab> Logger
+
+@if (Budget?.Incomes is not null)
+{
+    <MudGrid>
+        @foreach (var income in Budget.Incomes)
+        {
+            <MudItem xs="12" md="2">
+                <IncomeCard Income="income" IncomeChanged="((newIncome) => IncomeChanged(income.GetHashCode(), newIncome))"
+            IncomeDeleted="((delIncome) => IncomeDeleted(income.GetHashCode(), delIncome))" />
+            </MudItem>
+        }
+    </MudGrid>
+    <MudFab Icon="@Icons.Material.Filled.Add" 
+        Color="Color.Primary" 
+        Style="position: fixed; right: 1rem; bottom: 1rem;"
+        OnClick="AddIncomeClicked" />
+}
+else
+{
+    <MudContainer Class="d-flex justify-center align-center">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateFirstIncomeClicked">Create your first income</MudButton>
+    </MudContainer>
+}
+
+
+@code {
+    [CascadingParameter]
+    Budget? Budget { get; set; }
+
+    [CascadingParameter]
+    EventCallback<Budget> BudgetChanged { get; set; }
+
+    private async Task CreateFirstIncomeClicked()
+    {
+        if (Budget is null) return;
+
+        Snackbar.Add("Adding first income", Severity.Info);
+
+        Budget = Budget with { Incomes = new List<Income> { Income.New() } };
+
+        Logger.LogTrace("Budget changed");
+        await BudgetChanged.InvokeAsync(Budget);
+    }
+
+    private async Task IncomeChanged(int oldHashCode, Income income)
+    {
+        if (Budget?.Incomes is null) return;
+        try 
+        {
+            var incomes = Budget.Incomes.Where(i => i.GetHashCode() != oldHashCode);
+            Budget = Budget with { Incomes = Budget.Incomes.Append(income) };
+            
+            Logger.LogTrace("Budget changed");
+            await BudgetChanged.InvokeAsync(Budget);
+        }
+        catch 
+        {
+            Snackbar.Add("Failed to update income", Severity.Warning);
+        }
+    }
+
+    private async Task IncomeDeleted(int oldHashCode, Income income)
+    {
+        if (Budget?.Incomes is null) return;
+        try 
+        {
+            Budget = Budget with { Incomes = Budget.Incomes.Where(i => i.GetHashCode() != oldHashCode) };
+            
+            Logger.LogTrace("Budget changed");
+            await BudgetChanged.InvokeAsync(Budget);
+        }
+        catch 
+        {
+            Snackbar.Add("Failed to delete income", Severity.Warning);
+        }
+    }
+
+    private async Task AddIncomeClicked()
+    {
+        if (Budget is null) return;
+        if (Budget.Incomes is null) 
+            Budget = Budget with { Incomes = new List<Income>() };
+        
+        Budget = Budget with { Incomes = Budget.Incomes.Append(Income.New()) };
+        Logger.LogTrace("Budget changed");
+        await BudgetChanged.InvokeAsync(Budget);
+    }
+}

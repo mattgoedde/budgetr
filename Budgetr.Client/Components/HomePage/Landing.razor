@@ -1,0 +1,65 @@
+﻿<MudContainer Class="mt-16">
+    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Budgetr App</MudText>
+    <MudText Align="Align.Center">The all in one app for personal financial planning.</MudText>
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="4" Class="pb-4">
+                <MudCardHeader Class="pb-0">
+                    <CardHeaderContent>
+                        <MudButton FullWidth Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Balance" Href="budget" Size="Size.Large" ><MudText Type="Typo.h5">Budget</MudText></MudButton>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent Class="pt-0">
+                    <MudButton FullWidth Href="budget" Size="Size.Large" >
+                        <MudList Class="mx-auto mt-4" Style="width:300px;">
+                            <MudListItem Icon="@Icons.Material.Filled.CalendarMonth">Weekly/Monthly/Yearly</MudListItem>
+                            <MudListItem Icon="@Icons.Material.Filled.Category">Categorized</MudListItem>
+                            <MudListItem Icon="@Icons.Material.Filled.People">Single and Married</MudListItem>
+                        </MudList>
+                    </MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="4" Class="pb-4">
+                <MudCardHeader Class="pb-0">
+                    <CardHeaderContent>
+                        <MudButton FullWidth Variant="Variant.Text" StartIcon="@Icons.Material.Filled.QueryStats" Href="analyze" Size="Size.Large" ><MudText Type="Typo.h5">Analyze</MudText></MudButton>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent Class="pt-0">
+                    <MudButton FullWidth Href="analyze" Size="Size.Large" >
+                        <MudList Class="mx-auto mt-4" Style="width:300px;">
+                            <MudListItem Icon="@Icons.Material.Filled.PieChart">Charts</MudListItem>
+                            <MudListItem Icon="@Icons.Material.Filled.TrendingUp">Trends</MudListItem>
+                            <MudListItem Icon="@Icons.Material.Filled.Feed">Reports</MudListItem>
+                        </MudList>
+                    </MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="4">
+            <MudCard Elevation="4" Class="pb-4">
+                <MudCardHeader Class="pb-0">
+                    <CardHeaderContent>
+                        <MudText Align="Align.Center">Coming Soon!</MudText>
+                        <MudButton FullWidth Variant="Variant.Text" StartIcon="@Icons.Material.Filled.QueryStats" Href="" Disabled Size="Size.Large" ><MudText Type="Typo.h5">Research</MudText></MudButton>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent Class="pt-0">
+                    <MudButton FullWidth Href="" Disabled Size="Size.Large" >
+                        <MudList Class="mx-auto mt-4" Style="width:300px;">
+                            <MudListItem Icon="@Icons.Material.Filled.AccountBalance">Loans</MudListItem>
+                            <MudListItem Icon="@Icons.Material.Filled.BeachAccess">Retirement</MudListItem>
+                            <MudListItem Icon="@Icons.Material.Filled.IncompleteCircle">Taxes</MudListItem>
+                        </MudList>
+                    </MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+}

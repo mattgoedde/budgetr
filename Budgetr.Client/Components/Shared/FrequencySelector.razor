@@ -1,0 +1,44 @@
+﻿<MudSelect Label="@Label"
+        Style="@Style"
+        Class="@Class"
+        @bind-Value="_frequency"
+        Required="@Required"
+        ReadOnly="@ReadOnly">
+    <MudSelectItem Value="@(Frequency.Weekly)">Weekly</MudSelectItem>
+    <MudSelectItem Value="@(Frequency.BiWeekly)">Bi-Weekly</MudSelectItem>
+    <MudSelectItem Value="@(Frequency.Monthly)">Monthly</MudSelectItem>
+    <MudSelectItem Value="@(Frequency.Quarterly)">Quarterly</MudSelectItem>
+    <MudSelectItem Value="@(Frequency.Yearly)">Yearly</MudSelectItem>
+</MudSelect>
+
+@code {
+    [Parameter]
+    public string Class { get; set; } = "";
+    [Parameter]
+    public string Style { get; set; } = "";
+    [Parameter]
+    public Frequency Frequency { get; set; }
+    private Frequency _frequency
+    {
+        get => Frequency;
+        set
+        {
+            if (Frequency != value)
+            {
+                Frequency = value;
+                FrequencyChanged.InvokeAsync(value);
+            }
+        }
+    }
+    [Parameter]
+    public EventCallback<Frequency> FrequencyChanged { get; set; }
+
+    [Parameter]
+    public string Label { get; set; } = "Frequency";
+
+    [Parameter]
+    public bool Required { get; set; } = true;
+
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+}

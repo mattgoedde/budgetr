@@ -1,0 +1,46 @@
+
+<MudText Align="Align.Center" Typo="Typo.h6">Taxes</MudText>
+@if (Budget is not null && _taxTypes.Any())
+{
+    <MudChart 
+        ChartType="ChartType.Bar"
+        XAxisLabels="_taxTypes"
+        ChartSeries="@GetChartData().ToList()"
+        Width="100%"
+        Height="350"
+        ChartOptions="GetChartOptions()"/>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public Budget? Budget { get; set; }
+    
+    [Parameter, EditorRequired]
+    public Frequency Frequency { get; set; }
+
+    private string[] _taxTypes => Budget?.Incomes.SelectMany(i => i.TaxDeductions()).OrderByDescending(d => d.Amount).Select(d => d.Name).Distinct().ToArray() ?? Enumerable.Empty<string>().ToArray();
+
+    private ChartOptions GetChartOptions() 
+    {
+        var tickAmount = Budget?.Incomes.SelectMany(i => i.As(Frequency).TaxDeductions()).MaxBy(d => d.Amount)?.Amount / 4 ?? 100;
+        return new ChartOptions
+        {
+            YAxisFormat = "C0",
+            YAxisTicks = (int)Math.Floor(tickAmount)
+        };
+    }
+
+    private IEnumerable<ChartSeries> GetChartData() 
+    {
+        if (Budget is null)
+            return Enumerable.Empty<ChartSeries>();
+        
+        return Budget.Incomes
+        .Select(i => 
+            new ChartSeries 
+            { 
+                Name = i.Name, 
+                Data = _taxTypes.Select(t => i.As(Frequency).TaxDeductions().FirstOrDefault(d => d.Name == t)?.Amount ?? 0.00).ToArray() 
+            });
+    }
+}

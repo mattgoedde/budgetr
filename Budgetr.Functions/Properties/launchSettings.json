@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Budgetr.Functions": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7116 --verbose"
+    }
+  }
+}

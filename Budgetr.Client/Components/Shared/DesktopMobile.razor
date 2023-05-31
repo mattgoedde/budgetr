@@ -1,0 +1,19 @@
+@if (DesktopContent is not null)
+{
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        @DesktopContent
+    </MudHidden>
+}
+@if (MobileContent is not null)
+{
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        @MobileContent
+    </MudHidden>
+}
+@code {
+    [Parameter]
+    public RenderFragment? DesktopContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? MobileContent { get; set; }
+}

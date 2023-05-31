@@ -1,0 +1,130 @@
+@inject ISnackbar Snackbar
+
+@if (Budget?.AutoLoans is not null)
+{
+    <MudGrid>
+        @foreach (var loan in Budget.AutoLoans)
+        {
+            <MudItem xs="12" md="2">
+                <LoanCard Loan="loan" LoanChanged="((newLoan) => AutoLoanChanged(loan.GetHashCode(), newLoan))"
+        LoanDeleted="((delLoan) => AutoLoanDeleted(loan.GetHashCode(), delLoan))" />
+            </MudItem>
+        }
+    </MudGrid>
+    @if (Budget.AutoLoans.Any() && Budget.Expenses.Any(e => e.ExpenseType ==
+    ExpenseType.Transportation))
+    {
+        <MudDivider Class="my-4" />
+    }
+    <MudGrid>
+        @foreach (var expense in Budget.Expenses.Where(e => e.ExpenseType ==
+        ExpenseType.Transportation))
+        {
+            <MudItem xs="12" md="2">
+                <ExpenseCard Expense="expense"
+        ExpenseChanged="((newExpense) => ExpenseChanged(expense.GetHashCode(), newExpense))"
+        ExpenseDeleted="((delExpense) => ExpenseDeleted(expense.GetHashCode(), delExpense))" />
+            </MudItem>
+        }
+    </MudGrid>
+    <MudMenu Style="position: fixed; right: 1rem; bottom: 1rem;">
+        <ActivatorContent>
+            <MudFab Icon="@Icons.Material.Filled.MoreVert" Color="Color.Primary" />
+        </ActivatorContent>
+        <ChildContent>
+            <MudMenuItem OnClick="AddCarLoanClicked">Add Car Loan</MudMenuItem>
+            <MudMenuItem OnClick="AddTransportationExpenseClicked">Add Expense</MudMenuItem>
+        </ChildContent>
+    </MudMenu>
+}
+
+@code {
+    [CascadingParameter]
+    Budget? Budget { get; set; }
+
+    [CascadingParameter]
+    EventCallback<Budget> BudgetChanged { get; set; }
+
+    private async Task AutoLoanChanged(int oldHashCode, AmortizedLoan loan)
+    {
+        if (Budget?.AutoLoans is null) return;
+        try 
+        {
+            var autoLoans = Budget.AutoLoans.Where(i => i.GetHashCode() != oldHashCode);
+            Budget = Budget with { AutoLoans = Budget.AutoLoans.Append(loan) };
+
+            await BudgetChanged.InvokeAsync(Budget);
+        }
+        catch 
+        {
+            Snackbar.Add("Failed to update loan", Severity.Warning);
+        }
+    }
+
+    private async Task AutoLoanDeleted(int oldHashCode, AmortizedLoan loan)
+    {
+        if (Budget?.AutoLoans is null) return;
+        try 
+        {
+            Budget = Budget with { AutoLoans = Budget.AutoLoans.Where(i => i.GetHashCode() != oldHashCode) };
+
+            await BudgetChanged.InvokeAsync(Budget);
+        }
+        catch 
+        {
+            Snackbar.Add("Failed to delete loan", Severity.Warning);
+        }
+    }
+
+    private async Task AddCarLoanClicked()
+    {
+        if (Budget is null) return;
+        if (Budget.AutoLoans is null) 
+            Budget = Budget with { AutoLoans = new List<AmortizedLoan>() };
+        
+        Budget = Budget with { AutoLoans = Budget.AutoLoans.Append(AmortizedLoan.New()) };
+        await BudgetChanged.InvokeAsync(Budget);
+    }
+
+    private async Task AddTransportationExpenseClicked()
+    {
+        if (Budget is null) return;
+        if (Budget.Expenses is null) 
+            Budget = Budget with { Expenses = new List<Expense>() };
+
+        Budget = Budget with { Expenses = Budget.Expenses.Append(Expense.New() with { ExpenseType = ExpenseType.Transportation }) };
+
+        await BudgetChanged.InvokeAsync(Budget);
+    }
+
+    private async Task ExpenseChanged(int oldHashCode, Expense expense)
+    {
+        if (Budget?.Expenses is null) return;
+        try 
+        {
+            var expenses = Budget.Expenses.Where(i => i.GetHashCode() != oldHashCode);
+            Budget = Budget with { Expenses = Budget.Expenses.Append(expense) };
+
+            await BudgetChanged.InvokeAsync(Budget);
+        }
+        catch 
+        {
+            Snackbar.Add("Failed to update loan", Severity.Warning);
+        }
+    }
+
+    private async Task ExpenseDeleted(int oldHashCode, Expense expense)
+    {
+        if (Budget?.Expenses is null) return;
+        try 
+        {
+            Budget = Budget with { Expenses = Budget.Expenses.Where(i => i.GetHashCode() != oldHashCode) };
+
+            await BudgetChanged.InvokeAsync(Budget);
+        }
+        catch 
+        {
+            Snackbar.Add("Failed to delete loan", Severity.Warning);
+        }
+    }
+}

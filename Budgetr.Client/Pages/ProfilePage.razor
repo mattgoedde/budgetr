@@ -1,0 +1,25 @@
+@page "/profile"
+
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+
+@inject IAuthorizationProvider AuthProvider
+
+<MudContainer>
+    <MudCard Class="pa-4">
+        <MudAvatar Color="Color.Primary" Style="height:70px; width:70px; font-size:2rem;">@_user?.FirstName.First()</MudAvatar>
+        <MudText>@(_user?.FirstName + " " + _user?.LastName)</MudText>
+        <MudText><MudIcon Icon="@Icons.Material.Filled.LocationCity" />@(_user?.City + ", " + _user?.Country)</MudText>
+    </MudCard>
+    <MudCard>
+        <MudSwitch T="bool" Color="Color.Primary" />
+    </MudCard>
+</MudContainer>
+
+@code {
+    private User? _user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await AuthProvider.GetUserAsync();
+    }
+}
