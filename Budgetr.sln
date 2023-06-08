@@ -9,10 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Logic", "Budgetr.Lo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Tests", "Budgetr.Tests\Budgetr.Tests.csproj", "{F738A16D-EC80-4005-9EA6-9EBB872E0A65}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Client", "Budgetr.Client\Budgetr.Client.csproj", "{308AC9F4-845F-4CEB-8A7C-61125D7AC172}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Functions", "Budgetr.Functions\Budgetr.Functions.csproj", "{12641A15-29A4-4C28-97A0-7EDAC4B1D074}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,14 +27,6 @@ Global
 		{F738A16D-EC80-4005-9EA6-9EBB872E0A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F738A16D-EC80-4005-9EA6-9EBB872E0A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F738A16D-EC80-4005-9EA6-9EBB872E0A65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{308AC9F4-845F-4CEB-8A7C-61125D7AC172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{308AC9F4-845F-4CEB-8A7C-61125D7AC172}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{308AC9F4-845F-4CEB-8A7C-61125D7AC172}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{308AC9F4-845F-4CEB-8A7C-61125D7AC172}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12641A15-29A4-4C28-97A0-7EDAC4B1D074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12641A15-29A4-4C28-97A0-7EDAC4B1D074}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12641A15-29A4-4C28-97A0-7EDAC4B1D074}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12641A15-29A4-4C28-97A0-7EDAC4B1D074}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
