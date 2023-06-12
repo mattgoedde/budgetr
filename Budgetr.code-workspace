@@ -16,7 +16,8 @@
 			"**/bin": true,
 			"**/obj": true,
 			"**/.vs": true
-		}
+		},
+		"dotnet.defaultSolution": "Budgetr.sln"
 	},
 	"extensions": {
 		"recommendations": [
