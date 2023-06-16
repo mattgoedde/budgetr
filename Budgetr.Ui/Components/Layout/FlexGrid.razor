@@ -1,17 +1,7 @@
 ﻿@inherits Div
 
 @code {
-    protected override void OnInitialized()
-    {
-        
-    }
-
-    protected override string StyleBuilder()
-    {
-        return base.StyleBuilder();
-    }
-
-    protected override string ClassBuilder()
+    protected  string ClassBuilder()
     {
         var baseClass = base.ClassBuilder();
         var sb = new StringBuilder(baseClass);

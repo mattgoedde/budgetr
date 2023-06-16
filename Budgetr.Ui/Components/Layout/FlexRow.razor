@@ -1,11 +1,6 @@
 ﻿@inherits Div
 
 @code {
-    protected override string StyleBuilder()
-    {
-        return base.StyleBuilder();
-    }
-
     protected override string ClassBuilder()
     {
         var baseClass = base.ClassBuilder();
@@ -16,8 +11,7 @@
         if (JustifyContent is not null) sb.Append($" {_justifyContent}");
         if (AlignContent is not null) sb.Append($" {_alignContent}");
         if (AlignItems is not null) sb.Append($" {_alignItems}");
-        if (Class is not null) sb.Append($" {Class}");
-
+        
         var @class = sb.ToString();
         
         return @class;
