@@ -47,10 +47,10 @@ public static class BudgetExtensions
         => budget.Incomes.Select(i => i.As(frequency)).Sum(i => i.Deductions.Where(d => d.DeductionType == deductionType).Sum(d => d.Amount));
 
     public static double TotalHousing(this Budget budget, Frequency frequency)
-        => (budget.HousingLoans.Sum(l => l.NextPayment().TotalPayment())) * (int)Frequency.Monthly / (int)frequency + TotalExpenses(budget, ExpenseType.Housing, frequency);
+        => (budget.HousingLoans.Sum(l => l.NextPayment().Total)) * (int)Frequency.Monthly / (int)frequency + TotalExpenses(budget, ExpenseType.Housing, frequency);
 
     public static double TotalTransportation(this Budget budget, Frequency frequency)
-        => (budget.AutoLoans.Sum(l => l.NextPayment().TotalPayment())) * (int)Frequency.Monthly / (int)frequency + TotalExpenses(budget, ExpenseType.Transportation, frequency);
+        => (budget.AutoLoans.Sum(l => l.NextPayment().Total)) * (int)Frequency.Monthly / (int)frequency + TotalExpenses(budget, ExpenseType.Transportation, frequency);
 
     public static double TotalExpenses(this Budget budget, Frequency frequency)
         => budget.Expenses.Select(e => e.As(frequency)).Sum(e => e.Amount);
@@ -68,7 +68,7 @@ public static class BudgetExtensions
         => budget.TotalDeductions(DeductionType.PostTax, frequency);
 
     public static double TotalOtherLoans(this Budget budget, Frequency frequency)
-        => budget.OtherLoans.Sum(l => l.NextPayment().TotalPayment()) * (int)Frequency.Monthly / (int)frequency;
+        => budget.OtherLoans.Sum(l => l.NextPayment().Total) * (int)Frequency.Monthly / (int)frequency;
 
     public static double DisposableIncome(this Budget budget, Frequency frequency)
         => budget.GrossIncome(frequency) // gross Income

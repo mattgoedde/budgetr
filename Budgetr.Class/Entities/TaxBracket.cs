@@ -21,7 +21,4 @@ public record TaxBracket
     double IncomeMaximum,
     [JsonProperty(PropertyName = "previousBracketPayment")]
     double PreviousBracketPayment
-)
-{
-    public static TaxBracket Empty() => new(Guid.Empty, Enumerable.Empty<Guid>(), Enumerable.Empty<Guid>(), "None", FilingStatus.Unknown, 0, 0, 0, 0);
-}
+);

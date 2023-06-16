@@ -1,0 +1,15 @@
+﻿<div class="fluent-number-readout">
+    <div class="fluent-number-readout-header">
+        @LabelContent
+    </div>
+    <FluentCard Style="display: flex; padding: 0.5rem; align-content: center; justify-content: center; height: revert;">
+        @ValueContent
+    </FluentCard>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ValueContent { get; set; }
+    [Parameter]
+    public RenderFragment? LabelContent { get; set; }
+}

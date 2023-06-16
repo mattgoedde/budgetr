@@ -20,7 +20,4 @@ public record Budget
     IEnumerable<AmortizedLoan> OtherLoans,
     [JsonProperty(PropertyName = "expenses")]
     IEnumerable<Expense> Expenses
-)
-{
-    public static Budget New() => new(Guid.Empty, Guid.Empty, DateTime.UtcNow, "New Budget", Enumerable.Empty<Income>(), Enumerable.Empty<AmortizedLoan>(), Enumerable.Empty<AmortizedLoan>(), Enumerable.Empty<AmortizedLoan>(), Enumerable.Empty<Expense>());
-}
+);

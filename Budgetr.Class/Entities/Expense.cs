@@ -10,7 +10,4 @@ public record Expense
     Frequency Frequency,
     [JsonProperty(PropertyName = "expenseType")]
     ExpenseType ExpenseType
-)
-{
-    public static Expense New() => new("New Expense", 0, Frequency.Unknown, ExpenseType.Unknown);
-}
+);

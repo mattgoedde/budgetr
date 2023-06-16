@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Logic", "Budgetr.Lo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Tests", "Budgetr.Tests\Budgetr.Tests.csproj", "{F738A16D-EC80-4005-9EA6-9EBB872E0A65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Ui", "Budgetr.Ui\Budgetr.Ui.csproj", "{D5CC1C57-F59D-4AE4-AD04-1F824AE40FA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Ui", "Budgetr.Ui\Budgetr.Ui.csproj", "{D5CC1C57-F59D-4AE4-AD04-1F824AE40FA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

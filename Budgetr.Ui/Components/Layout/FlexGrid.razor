@@ -1,0 +1,15 @@
+﻿@inherits Div
+
+@code {
+    protected override string ClassBuilder()
+    {
+        var baseClass = base.ClassBuilder();
+        var sb = new StringBuilder(baseClass);
+
+        sb.Append(" flex-grid");
+
+        var @class = sb.ToString();
+
+        return @class;
+    }
+}

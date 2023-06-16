@@ -12,7 +12,4 @@ public record User
     string Country,
     [JsonProperty(PropertyName = "city")]
     string City
-)
-{
-    public static User New() => new(Guid.Empty, "", "", "", "");
-}
+);

@@ -1,0 +1,64 @@
+﻿.flex-grid-row {
+    display: flex;
+    flex-flow: row wrap;
+}
+/* justify content */
+.flex-grid-row.justify-center {
+    justify-content: center;
+}
+
+.flex-grid-row.justify-flex-start {
+    justify-content: flex-start;
+}
+
+.flex-grid-row.justify-flex-end {
+    justify-content: flex-end;
+}
+
+.flex-grid-row.justify-space-between {
+    justify-content: space-between;
+}
+
+.flex-grid-row.justify-space-around {
+    justify-content: space-around;
+}
+/* align content */
+.flex-grid-row.align-content-center {
+    align-content: center;
+}
+
+.flex-grid-row.align-content-flex-start {
+    align-content: flex-start;
+}
+
+.flex-grid-row.align-content-flex-end {
+    align-content: flex-end;
+}
+
+.flex-grid-row.align-content-space-between {
+    align-content: space-between;
+}
+
+.flex-grid-row.align-content-space-around {
+    align-content: space-around;
+}
+/* align items */
+.flex-grid-row.align-items-center {
+    align-items: center;
+}
+
+.flex-grid-row.align-items-flex-start {
+    align-items: flex-start;
+}
+
+.flex-grid-row.align-items-flex-end {
+    align-items: flex-end;
+}
+
+.flex-grid-row.align-items-stretch {
+    align-items: stretch;
+}
+
+.flex-grid-row.align-items-baseline {
+    align-items: baseline;
+}

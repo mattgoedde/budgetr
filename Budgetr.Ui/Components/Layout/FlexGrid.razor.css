@@ -1,0 +1,4 @@
+﻿.flex-grid {
+    display: flex;
+    flex-flow: column wrap;
+}

@@ -1,18 +1,24 @@
 ﻿namespace Budgetr.Class.Entities;
 
-public record AmortizedLoan
-(
-    [JsonProperty(PropertyName = "name")]
-    string Name,
-    [JsonProperty(PropertyName = "loanAmount")]
-    double LoanAmount,
-    [JsonProperty(PropertyName = "remainingBalance")]
-    double RemainingBalance,
-    [JsonProperty(PropertyName = "annualInterestRate")]
-    double AnnualInterestRate,
-    [JsonProperty(PropertyName = "loanTermYears")]
-    int LoanTermYears
-)
+public interface IAmortizedLoan
 {
-    public static AmortizedLoan New() => new("New Loan", 0, 0, 0, 0);
+    string Name { get; }
+    double LoanAmount { get; }
+    double RemainingBalance { get; }
+    double AnnualInterestRate { get; }
+    int LoanTermMonths { get; }
+}
+
+public record AmortizedLoan : IAmortizedLoan
+{
+    [JsonProperty(PropertyName = "name")]
+    public string Name { get; init; } = string.Empty;
+    [JsonProperty(PropertyName = "loanAmount")]
+    public double LoanAmount { get; init; }
+    [JsonProperty(PropertyName = "remainingBalance")]
+    public double RemainingBalance { get; init; }
+    [JsonProperty(PropertyName = "annualInterestRate")]
+    public double AnnualInterestRate { get; init; }
+    [JsonProperty(PropertyName = "loanTermMonths")]
+    public int LoanTermMonths { get; init; }
 }

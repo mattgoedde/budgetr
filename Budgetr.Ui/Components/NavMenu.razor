@@ -1,0 +1,17 @@
+﻿<nav>
+    <section class="left">
+        <FluentAnchor Appearance="Appearance.Lightweight" Href="/">Home</FluentAnchor>
+        <FluentAnchor Appearance="Appearance.Lightweight" Href="/tools">Tools</FluentAnchor>
+    </section>
+    <section class="center">
+        <FluentSearch @bind-Value=@searchValue />
+    </section>
+    <section class="right">
+        <FluentAnchor Appearance="Appearance.Lightweight" Href="/console">Console</FluentAnchor>
+        <FluentAnchor Appearance="Appearance.Lightweight" Href="/profile">Profile</FluentAnchor>
+    </section>
+</nav>
+
+@code {
+    string searchValue;
+}

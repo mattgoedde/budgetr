@@ -1,0 +1,23 @@
+﻿nav {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+nav section {
+
+}
+
+nav section .left {
+        
+}
+
+nav section .center {
+
+}
+
+nav section .right {
+
+}

@@ -12,9 +12,9 @@ internal class AmortizedLoanValidator : AbstractValidator<AmortizedLoan>
             .GreaterThan(0)
             .WithMessage("Amortized Loans must have a loan amount greater than 0.");
 
-        RuleFor(l => l.LoanTermYears)
+        RuleFor(l => l.LoanTermMonths)
             .GreaterThan(0)
-            .WithMessage("Amortized Loans must have a term greater than 0 years.");
+            .WithMessage("Amortized Loans must have a term greater than 0 months.");
 
         RuleFor(l => l.RemainingBalance)
             .GreaterThan(0)

@@ -11,7 +11,4 @@ public record Deduction
     Frequency Frequency,
     [JsonProperty(PropertyName = "deductionType")]
     DeductionType DeductionType
-)
-{
-    public static Deduction New() => new("New Deduction", 0, Frequency.Unknown, DeductionType.Unknown);
-}
+);

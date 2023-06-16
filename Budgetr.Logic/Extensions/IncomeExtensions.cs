@@ -1,7 +1,4 @@
-﻿using Budgetr.Class.Entities;
-using Budgetr.Class.Enums;
-
-namespace Budgetr.Logic.Extensions;
+﻿namespace Budgetr.Logic.Extensions;
 
 public static class IncomeExtensions
 {

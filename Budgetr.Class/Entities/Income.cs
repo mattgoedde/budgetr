@@ -10,7 +10,4 @@ public record Income
     Frequency Frequency,
     [JsonProperty(PropertyName = "deductions")]
     IEnumerable<Deduction> Deductions
-)
-{
-    public static Income New() => new("New Income", 0, Frequency.Unknown, Enumerable.Empty<Deduction>());
-}
+);
