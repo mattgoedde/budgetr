@@ -1,6 +1,16 @@
 ﻿@inherits Div
 
 @code {
+    protected override void OnInitialized()
+    {
+        
+    }
+
+    protected override string StyleBuilder()
+    {
+        return base.StyleBuilder();
+    }
+
     protected override string ClassBuilder()
     {
         var baseClass = base.ClassBuilder();

@@ -89,23 +89,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Components\Budget\**" />
-	  <Content Remove="Components\Budget\**" />
-	  <EmbeddedResource Remove="Components\Budget\**" />
-	  <None Remove="Components\Budget\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Microsoft.Fast.Components.FluentUI" Version="2.1.*" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Budgetr.Class\Budgetr.Class.csproj" />
 	  <ProjectReference Include="..\Budgetr.Logic\Budgetr.Logic.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Components\Layout\Flex\" />
 	</ItemGroup>
 
 </Project>
