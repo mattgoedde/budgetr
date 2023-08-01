@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+
+<FluentMainLayout NavMenuTitle="Navigation menu">
+    <Header>
+        <h3>Budgetr</h3>
+        <FluentSpacer />
+        <Login />
+    </Header>
+    <NavMenuContent>
+        <FluentNavMenuLink Icon="@(new Icons.Regular.Size24.Home())" Href="/" Text="Home" />
+        <FluentNavMenuGroup Icon="@(new Icons.Regular.Size24.Toolbox())" Href="/tools" Text="Tools">
+            <FluentNavMenuLink Href="/tools/amortization-calculator" Text="Amortization Calculator"/>
+        </FluentNavMenuGroup>
+        <AuthorizeView>
+            <FluentNavMenuGroup Icon="@(new Icons.Regular.Size24.Money())" Text="Budget">
+                <FluentNavMenuLink Text="Income" />
+                <FluentNavMenuLink Text="Housing" />
+                <FluentNavMenuLink Text="Transportation" />
+                <FluentNavMenuLink Text="Loans" />
+                <FluentNavMenuLink Text="Expenses" />
+            </FluentNavMenuGroup>
+        </AuthorizeView>
+    </NavMenuContent>
+    <Body>
+        <div class="budgetr-body-content">
+            <FluentStack Orientation="Orientation.Vertical">
+                @Body
+                <FluentFooter>
+                    <div class="budgetr-footer">
+                        &copy; Budgetr - @DateTime.Today.Year - <FluentAnchor Appearance="Appearance.Hypertext" Href="/privacy">Privacy</FluentAnchor> - <FluentAnchor Appearance="Appearance.Hypertext" Href="/terms">Terms</FluentAnchor>
+                    </div>
+                </FluentFooter>
+            </FluentStack>
+        </div>
+    </Body>
+</FluentMainLayout>

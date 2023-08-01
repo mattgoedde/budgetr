@@ -4,8 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>Budgetr.Ui.Server-9f2708db-69a6-4db0-ae14-6165c4dedc0e</UserSecretsId>
-    <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
+    <UserSecretsId>Budgetr.Ui.Server-5681abb1-ab2b-4f9c-9b11-583488352475</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
