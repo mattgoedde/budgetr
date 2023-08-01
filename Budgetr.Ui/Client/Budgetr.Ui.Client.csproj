@@ -27,6 +27,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Budgetr.Logic\Budgetr.Logic.csproj" />
 		<ProjectReference Include="..\Shared\Budgetr.Ui.Shared.csproj" />
 	</ItemGroup>
 
