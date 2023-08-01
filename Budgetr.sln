@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Class", "Budgetr.Class\Budgetr.Class.csproj", "{9580EA70-1CCD-4F70-886A-E20EDA82D163}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Logic", "Budgetr.Logic\Budgetr.Logic.csproj", "{E7208C92-88C3-44F0-AAC6-135DFA562BB6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Tests", "Budgetr.Tests\Budgetr.Tests.csproj", "{F738A16D-EC80-4005-9EA6-9EBB872E0A65}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Ui", "Budgetr.Ui\Budgetr.Ui.csproj", "{D5CC1C57-F59D-4AE4-AD04-1F824AE40FA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Ui.Client", "Budgetr.Ui\Client\Budgetr.Ui.Client.csproj", "{03EA0D7D-CC57-4211-BA47-9973DEA3B043}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Ui.Server", "Budgetr.Ui\Server\Budgetr.Ui.Server.csproj", "{25911BC8-53A7-4904-81D3-3E4E7F233C7C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Ui.Shared", "Budgetr.Ui\Shared\Budgetr.Ui.Shared.csproj", "{8F2ADC8D-5194-44E7-B08A-5B2201170E3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9580EA70-1CCD-4F70-886A-E20EDA82D163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9580EA70-1CCD-4F70-886A-E20EDA82D163}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9580EA70-1CCD-4F70-886A-E20EDA82D163}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9580EA70-1CCD-4F70-886A-E20EDA82D163}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7208C92-88C3-44F0-AAC6-135DFA562BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7208C92-88C3-44F0-AAC6-135DFA562BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7208C92-88C3-44F0-AAC6-135DFA562BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,10 +27,18 @@ Global
 		{F738A16D-EC80-4005-9EA6-9EBB872E0A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F738A16D-EC80-4005-9EA6-9EBB872E0A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F738A16D-EC80-4005-9EA6-9EBB872E0A65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5CC1C57-F59D-4AE4-AD04-1F824AE40FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5CC1C57-F59D-4AE4-AD04-1F824AE40FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5CC1C57-F59D-4AE4-AD04-1F824AE40FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5CC1C57-F59D-4AE4-AD04-1F824AE40FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03EA0D7D-CC57-4211-BA47-9973DEA3B043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03EA0D7D-CC57-4211-BA47-9973DEA3B043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03EA0D7D-CC57-4211-BA47-9973DEA3B043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03EA0D7D-CC57-4211-BA47-9973DEA3B043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25911BC8-53A7-4904-81D3-3E4E7F233C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25911BC8-53A7-4904-81D3-3E4E7F233C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25911BC8-53A7-4904-81D3-3E4E7F233C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25911BC8-53A7-4904-81D3-3E4E7F233C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F2ADC8D-5194-44E7-B08A-5B2201170E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2ADC8D-5194-44E7-B08A-5B2201170E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2ADC8D-5194-44E7-B08A-5B2201170E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2ADC8D-5194-44E7-B08A-5B2201170E3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
