@@ -1,0 +1,48 @@
+﻿<FluentCard>
+    @if (HeaderContent is not null)
+    {
+        @HeaderContent
+        <FluentDivider />
+    }
+    <div class="@(InlineForm ? "loan-card-form-inline" : "loan-card-form")">
+        <span class="loan-card-field">
+            <FluentTextField @bind-Value="@Value.Name">Name</FluentTextField>
+        </span>
+        <span class="loan-card-field">
+            <CurrencyField @bind-Value="@Value.LoanAmount">Amount</CurrencyField>
+        </span>
+        <span class="loan-card-field">
+            <CurrencyField @bind-Value="@Value.RemainingBalance">Remaining Amount</CurrencyField>
+        </span>
+        <span class="loan-card-field">
+            <div>
+                <FluentNumberField @bind-Value="@Value.LoanTermMonths">Loan Term (months)</FluentNumberField>
+                <FluentLabel>@(((double)Value.LoanTermMonths / (double)12).ToString("N")) years</FluentLabel>
+            </div>
+        </span>
+        <span class="loan-card-field">
+            <div>
+                <FluentNumberField @bind-Value="@Value.AnnualInterestRate" Step="0.00000">Annual Interest Rate</FluentNumberField>
+                <FluentLabel>@Value.AnnualInterestRate.ToString("P3")</FluentLabel>
+            </div>
+        </span>
+    </div>
+    @if (FooterContent is not null)
+    {
+        <FluentDivider />
+        @FooterContent
+    }
+</FluentCard>
+
+    @code {
+    [Parameter]
+    public AmortizedLoanModel Value { get; set; } = new();
+    [Parameter]
+    public EventCallback<AmortizedLoanModel> ValueChanged { get; set; }
+    [Parameter]
+    public bool InlineForm { get; set; }
+    [Parameter]
+    public RenderFragment? HeaderContent { get; set; }
+    [Parameter]
+    public RenderFragment? FooterContent { get; set; }
+}

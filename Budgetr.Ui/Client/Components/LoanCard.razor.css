@@ -1,0 +1,19 @@
+﻿.loan-card-header {
+    margin: 16px;
+}
+
+.loan-card-form {
+    display: flex;
+    flex-direction: column;
+    margin: 16px;
+}
+
+.loan-card-form-inline {
+    display: flex;
+    flex-direction: row;
+    margin: 16px;
+}
+
+.loan-card-field {
+    margin: 2px;
+}
