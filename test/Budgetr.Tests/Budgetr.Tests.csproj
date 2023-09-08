@@ -17,7 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Budgetr.Logic\Budgetr.Logic.csproj" />
+    <ProjectReference Include="..\..\src\Budgetr.Class\Budgetr.Class.csproj" />
+    <ProjectReference Include="..\..\src\Budgetr.Logic\Budgetr.Logic.csproj" />
   </ItemGroup>
 
 </Project>
