@@ -2,7 +2,7 @@
 
 public static class ExpenseExtensions
 {
-    public static Expense As(this Expense expense, Frequency frequency)
+    public static Expense To(this Expense expense, Frequency frequency)
     {
         return expense with
         {

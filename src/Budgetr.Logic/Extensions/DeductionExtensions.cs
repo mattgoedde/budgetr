@@ -2,7 +2,7 @@
 
 public static class DeductionExtensions
 {
-    public static Deduction As(this Deduction deduction, Frequency frequency)
+    public static Deduction To(this Deduction deduction, Frequency frequency)
     {
         return deduction with
         {

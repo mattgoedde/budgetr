@@ -9,7 +9,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddSingletonValidators(this IServiceCollection services)
     {
         return services
-                .AddSingleton<IValidator<Budget>, BudgetValidator>()
                 .AddSingleton<IValidator<Income>, IncomeValidator>()
                 .AddSingleton<IValidator<Deduction>, DeductionValidator>()
                 .AddSingleton<IValidator<Expense>, ExpenseValidator>()

@@ -2,12 +2,12 @@
 
 public static class IncomeExtensions
 {
-    public static Income As(this Income income, Frequency frequency)
+    public static Income To(this Income income, Frequency frequency)
     {
         return income with
         {
             Amount = income.Amount * (int)income.Frequency / (int)frequency,
-            Deductions = income.Deductions.Select(d => d.As(frequency)),
+            Deductions = income.Deductions.Select(d => d.To(frequency)),
             Frequency = frequency,
         };
     }
