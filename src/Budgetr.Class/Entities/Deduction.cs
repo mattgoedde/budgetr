@@ -25,6 +25,6 @@ public record Deduction : BudgetEntity, IDeduction
     [Range((int)DeductionType.PreTax, (int)DeductionType.PostTax, ErrorMessage = "A deduction cannot have an unknown type")]
     public DeductionType DeductionType { get; set; }
 
-    public int IncomeId { get; set; }
+    public Guid IncomeId { get; set; }
     public Income Income { get; set; } = null!;
 }

@@ -13,7 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{107B857C-A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Tests", "test\Budgetr.Tests\Budgetr.Tests.csproj", "{DFCF6F48-8E98-4DBC-91B2-D2D92A019C9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.DataAccess", "src\Budgetr.DataAccess\Budgetr.DataAccess.csproj", "{2FD23B6F-81E9-4C7D-8350-8CACCF9968F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.DataAccess", "src\Budgetr.DataAccess\Budgetr.DataAccess.csproj", "{2FD23B6F-81E9-4C7D-8350-8CACCF9968F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Api", "src\Budgetr.Api\Budgetr.Api.csproj", "{22F5FEE5-6F9C-448A-AD5D-535322270AC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Shared", "src\Budgetr.Shared\Budgetr.Shared.csproj", "{FFAB92F2-AA8C-4CB3-9324-E661C706A6B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,14 @@ Global
 		{2FD23B6F-81E9-4C7D-8350-8CACCF9968F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FD23B6F-81E9-4C7D-8350-8CACCF9968F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FD23B6F-81E9-4C7D-8350-8CACCF9968F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22F5FEE5-6F9C-448A-AD5D-535322270AC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F5FEE5-6F9C-448A-AD5D-535322270AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22F5FEE5-6F9C-448A-AD5D-535322270AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22F5FEE5-6F9C-448A-AD5D-535322270AC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFAB92F2-AA8C-4CB3-9324-E661C706A6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFAB92F2-AA8C-4CB3-9324-E661C706A6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFAB92F2-AA8C-4CB3-9324-E661C706A6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFAB92F2-AA8C-4CB3-9324-E661C706A6B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +58,8 @@ Global
 		{C6E21E28-23EC-4EAD-8976-1E6957329AAD} = {E8F49195-2375-4B4F-B9F7-B8BBE5745515}
 		{DFCF6F48-8E98-4DBC-91B2-D2D92A019C9A} = {107B857C-AC0E-43E1-89A4-5224B6331DBC}
 		{2FD23B6F-81E9-4C7D-8350-8CACCF9968F4} = {E8F49195-2375-4B4F-B9F7-B8BBE5745515}
+		{22F5FEE5-6F9C-448A-AD5D-535322270AC5} = {E8F49195-2375-4B4F-B9F7-B8BBE5745515}
+		{FFAB92F2-AA8C-4CB3-9324-E661C706A6B8} = {E8F49195-2375-4B4F-B9F7-B8BBE5745515}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {154F24C5-2758-4D72-90C2-4A0875BFE1BF}

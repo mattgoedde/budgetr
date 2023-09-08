@@ -16,15 +16,24 @@ public class BudgetrDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder
-            .Entity<BaseEntity>()
-            .Property(e => e.CreatedUtc)
-            .HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<Budget>().ToTable("Budgets");
+        modelBuilder.Entity<Income>().ToTable("Incomes");
+        modelBuilder.Entity<Deduction>().ToTable("Deductions");
+        modelBuilder.Entity<Expense>().ToTable("Expenses");
+        modelBuilder.Entity<AmortizedLoan>().ToTable("AmortizedLoans");
+
+        modelBuilder.Entity<Budget>().Property(e => e.CreatedUtc).HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<Income>().Property(e => e.CreatedUtc).HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<Deduction>().Property(e => e.CreatedUtc).HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<Expense>().Property(e => e.CreatedUtc).HasDefaultValueSql("GETUTCDATE()");
+        modelBuilder.Entity<AmortizedLoan>().Property(e => e.CreatedUtc).HasDefaultValueSql("GETUTCDATE()");
 
         modelBuilder
             .Entity<Income>()
             .HasMany(i => i.Deductions)
-            .WithOne(d => d.Income);
+            .WithOne(d => d.Income)
+            .OnDelete(DeleteBehavior.ClientCascade);
+
         modelBuilder
             .Entity<Income>()
             .HasOne(i => i.Budget)
