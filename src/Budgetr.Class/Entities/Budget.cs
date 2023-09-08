@@ -1,10 +1,25 @@
-﻿namespace Budgetr.Ui.Shared.Entities;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record Budget
+namespace Budgetr.Class.Entities;
+
+public interface IBudget<TIncome, TDeduction, TExpense, TAmortizedLoan>
+    where TIncome : IIncome<TDeduction>
+    where TDeduction : IDeduction
+    where TExpense : IExpense
+    where TAmortizedLoan : IAmortizedLoan
 {
-    public IEnumerable<Income>? Incomes { get; init; }
-    public IEnumerable<AmortizedLoan>? HousingLoans { get; init; }
-    public IEnumerable<AmortizedLoan>? AutoLoans { get; init; }
-    public IEnumerable<AmortizedLoan>? OtherLoans { get; init; }
-    public IEnumerable<Expense>? Expenses { get; init; }
+    string Name { get; }
+    ICollection<TIncome> Incomes { get; }
+    ICollection<TExpense> Expenses { get; }
+    ICollection<TAmortizedLoan> AmortizedLoans { get; }
+}
+
+public record Budget : BaseEntity, IBudget<Income, Deduction, Expense, AmortizedLoan>
+{
+    [Required(AllowEmptyStrings = false, ErrorMessage = "You must give your budget a name")]
+    public string Name { get; set; } = string.Empty;
+
+    public ICollection<Income> Incomes { get; set; } = new List<Income>();
+    public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+    public ICollection<AmortizedLoan> AmortizedLoans { get; set; } = new List<AmortizedLoan>();
 }

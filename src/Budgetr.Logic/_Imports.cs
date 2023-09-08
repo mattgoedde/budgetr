@@ -1,5 +1,5 @@
 // Budgetr
-global using Budgetr.Ui.Shared.Entities;
-global using Budgetr.Ui.Shared.Enums;
+global using Budgetr.Class.Entities;
+global using Budgetr.Class.Enums;
 // Other
 global using FluentValidation;

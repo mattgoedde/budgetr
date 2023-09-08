@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Budgetr.Ui.Shared.Enums;
+namespace Budgetr.Class.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum DeductionType
 {
-    Unknown,
-    PreTax,
-    Tax,
-    PostTax,
+    Unknown = 0,
+    PreTax = 1,
+    Tax = 2,
+    PostTax = 3
 }

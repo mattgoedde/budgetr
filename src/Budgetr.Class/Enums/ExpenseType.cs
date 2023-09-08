@@ -1,15 +1,15 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Budgetr.Ui.Shared.Enums;
+namespace Budgetr.Class.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ExpenseType
 {
-    Transportation,
-    Housing,
-    Cellular,
-    Grocery,
-    Leisure,
-    Miscellaneous,
-    Unknown
+    Unknown = 0,
+    Transportation = 1,
+    Housing = 2,
+    Cellular = 3,
+    Grocery = 4,
+    Leisure = 5,
+    Miscellaneous = 6
 }

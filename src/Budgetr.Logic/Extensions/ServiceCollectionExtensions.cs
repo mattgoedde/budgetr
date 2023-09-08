@@ -1,4 +1,5 @@
-﻿using Budgetr.Logic.Validators;
+﻿using Budgetr.Class.Entities;
+using Budgetr.Logic.Validators;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 

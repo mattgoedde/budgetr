@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Budgetr.Ui.Shared.Enums;
+namespace Budgetr.Class.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum FilingStatus

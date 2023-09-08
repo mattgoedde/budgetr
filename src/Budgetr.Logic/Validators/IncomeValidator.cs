@@ -1,4 +1,7 @@
 ﻿
+using Budgetr.Class.Entities;
+using Budgetr.Class.Enums;
+
 namespace Budgetr.Logic.Validators;
 
 internal class IncomeValidator : AbstractValidator<Income>

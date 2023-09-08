@@ -1,15 +1,16 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Budgetr.Ui.Shared.Enums;
+namespace Budgetr.Class.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Frequency
 {
-    Weekly = 52,
-    BiWeekly = 26,
-    Monthly = 12,
-    Quarterly = 4,
-    BiYearly = 2,
+    Unknown = 0,
     Yearly = 1,
-    Unknown = 0
+    BiYearly = 2,
+    Quarterly = 4,
+    Monthly = 12,
+    BiWeekly = 26,
+    Weekly = 52,
+    Hourly = 2080
 }

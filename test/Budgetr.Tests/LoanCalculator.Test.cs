@@ -1,3 +1,6 @@
+using Budgetr.Class.Entities;
+using Budgetr.Class.Models;
+
 namespace Budgetr.Tests;
 
 public class TestLoanCalculator
@@ -11,8 +14,8 @@ public class TestLoanCalculator
         _mortgage = new AmortizedLoan
         {
             Name = "Test Mortgage",
-            LoanAmount = 500000,
-            RemainingBalance = 500000,
+            Principal = 500000,
+            Balance = 500000,
             AnnualInterestRate = 0.05,
             LoanTermMonths = 30 * 12
         };
@@ -20,8 +23,8 @@ public class TestLoanCalculator
         _car = new AmortizedLoan
         {
             Name = "Test Car Loan",
-            LoanAmount = 15142,
-            RemainingBalance = 15142,
+            Principal = 15142,
+            Balance = 15142,
             AnnualInterestRate = 0.0625,
             LoanTermMonths = 66
         };
@@ -60,8 +63,8 @@ public class TestLoanCalculator
         var badLoan = new AmortizedLoan
         {
             Name = "",
-            LoanAmount = 1000,
-            RemainingBalance = 1000,
+            Principal = 1000,
+            Balance = 1000,
             AnnualInterestRate = -0.01,
             LoanTermMonths = 5
         };
@@ -78,8 +81,8 @@ public class TestLoanCalculator
         var badLoan = new AmortizedLoan
         {
             Name = "",
-            LoanAmount = -1000,
-            RemainingBalance = 1000,
+            Principal = -1000,
+            Balance = 1000,
             AnnualInterestRate = 0.01,
             LoanTermMonths = 5
         };
@@ -96,8 +99,8 @@ public class TestLoanCalculator
         var badLoan = new AmortizedLoan
         {
             Name = "",
-            LoanAmount = 1000,
-            RemainingBalance = -1000,
+            Principal = 1000,
+            Balance = -1000,
             AnnualInterestRate = 0.01,
             LoanTermMonths = 5
         };
@@ -114,8 +117,8 @@ public class TestLoanCalculator
         var badLoan = new AmortizedLoan
         {
             Name = "",
-            LoanAmount = 1000,
-            RemainingBalance = 1000,
+            Principal = 1000,
+            Balance = 1000,
             AnnualInterestRate = 0.01,
             LoanTermMonths = -5
         };

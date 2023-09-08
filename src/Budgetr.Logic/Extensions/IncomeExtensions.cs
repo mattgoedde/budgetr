@@ -7,7 +7,7 @@ public static class IncomeExtensions
         return income with
         {
             Amount = income.Amount * (int)income.Frequency / (int)frequency,
-            Deductions = income.Deductions.Select(d => d.To(frequency)),
+            Deductions = income.Deductions.Select(d => d.To(frequency)).ToList(),
             Frequency = frequency,
         };
     }

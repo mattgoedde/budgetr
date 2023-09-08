@@ -1,3 +1,7 @@
+using Budgetr.Class.Entities;
+using Budgetr.Class.Enums;
+using Budgetr.Class.Models;
+
 namespace Budgetr.Logic.Extensions;
 
 public static class AmortizedLoanExtensions
@@ -36,20 +40,20 @@ public static class AmortizedLoanExtensions
 
     public static LoanPayment NextPayment(this IAmortizedLoan amortizedLoan, DateTime date)
     {
-        if (double.IsNaN(amortizedLoan.LoanAmount) ||
-            double.IsNaN(amortizedLoan.RemainingBalance) ||
+        if (double.IsNaN(amortizedLoan.Principal) ||
+            double.IsNaN(amortizedLoan.Balance) ||
             double.IsNaN(amortizedLoan.AnnualInterestRate) ||
             double.IsNaN(amortizedLoan.LoanTermMonths))
             return LoanPayment.Zero();
 
-        if (amortizedLoan.LoanAmount < 0) throw new ArgumentException("Loan Amount must be positive");
-        if (amortizedLoan.RemainingBalance < 0) throw new ArgumentException("Remaining Balance must be positive");
+        if (amortizedLoan.Principal < 0) throw new ArgumentException("Loan Amount must be positive");
+        if (amortizedLoan.Balance < 0) throw new ArgumentException("Remaining Balance must be positive");
         if (amortizedLoan.AnnualInterestRate < 0) throw new ArgumentException("Annual Interest Rate must be positive");
         if (amortizedLoan.LoanTermMonths < 0) throw new ArgumentException("Loan Term must be positive");
         
-        double totalPayment = TotalMonthlyPayment(amortizedLoan.LoanAmount, amortizedLoan.LoanTermMonths, amortizedLoan.AnnualInterestRate);
+        double totalPayment = TotalMonthlyPayment(amortizedLoan.Principal, amortizedLoan.LoanTermMonths, amortizedLoan.AnnualInterestRate);
         if (double.IsNaN(totalPayment) || totalPayment <= 0) return new LoanPayment();
-        double principalPayment = PrincipalPayment(totalPayment, amortizedLoan.RemainingBalance, amortizedLoan.AnnualInterestRate);
+        double principalPayment = PrincipalPayment(totalPayment, amortizedLoan.Balance, amortizedLoan.AnnualInterestRate);
 
         return new LoanPayment
         {
@@ -63,16 +67,16 @@ public static class AmortizedLoanExtensions
 
     public static IEnumerable<LoanPayment> AllPayments(this IAmortizedLoan amortizedLoan, DateTime startDate)
     {
-        if (double.IsNaN(amortizedLoan.LoanAmount) ||
-            double.IsNaN(amortizedLoan.RemainingBalance) ||
+        if (double.IsNaN(amortizedLoan.Principal) ||
+            double.IsNaN(amortizedLoan.Balance) ||
             double.IsNaN(amortizedLoan.AnnualInterestRate) ||
             double.IsNaN(amortizedLoan.LoanTermMonths))
             return Enumerable.Empty<LoanPayment>();
 
         amortizedLoan = new AmortizedLoan
         {
-            RemainingBalance = amortizedLoan.LoanAmount,
-            LoanAmount = amortizedLoan.LoanAmount,
+            Balance = amortizedLoan.Principal,
+            Principal = amortizedLoan.Principal,
             Name = amortizedLoan.Name,
             AnnualInterestRate = amortizedLoan.AnnualInterestRate,
             LoanTermMonths = amortizedLoan.LoanTermMonths
@@ -87,36 +91,36 @@ public static class AmortizedLoanExtensions
         if (amortizedLoan is null) 
             yield break;
 
-        if (double.IsNaN(amortizedLoan.LoanAmount) ||
-            double.IsNaN(amortizedLoan.RemainingBalance) ||
+        if (double.IsNaN(amortizedLoan.Principal) ||
+            double.IsNaN(amortizedLoan.Balance) ||
             double.IsNaN(amortizedLoan.AnnualInterestRate) ||
             double.IsNaN(amortizedLoan.LoanTermMonths))
             yield break;
 
-        if (amortizedLoan.LoanAmount == 0) 
+        if (amortizedLoan.Principal == 0) 
             yield break;
 
-        if (amortizedLoan.LoanAmount < 0) throw new ArgumentException("Loan Amount must be positive");
-        if (amortizedLoan.RemainingBalance < 0) throw new ArgumentException("Remaining Balance must be positive");
+        if (amortizedLoan.Principal < 0) throw new ArgumentException("Loan Amount must be positive");
+        if (amortizedLoan.Balance < 0) throw new ArgumentException("Remaining Balance must be positive");
         if (amortizedLoan.AnnualInterestRate < 0) throw new ArgumentException("Annual Interest Rate must be positive");
         if (amortizedLoan.LoanTermMonths < 0) throw new ArgumentException("Loan Term Months must be positive");
 
         var previousDate = startDate;
 
-        while (amortizedLoan.RemainingBalance > 0)
+        while (amortizedLoan.Balance > 0)
         {
             var nextPayment = amortizedLoan.NextPayment(previousDate);
             previousDate = nextPayment.Period;
 
-            if (nextPayment.Principal > amortizedLoan.RemainingBalance)
+            if (nextPayment.Principal > amortizedLoan.Balance)
             {
                 amortizedLoan = new AmortizedLoan
                 {
                     Name = amortizedLoan.Name,
                     AnnualInterestRate = amortizedLoan.AnnualInterestRate,
                     LoanTermMonths = amortizedLoan.LoanTermMonths,
-                    LoanAmount = amortizedLoan.LoanAmount,
-                    RemainingBalance = 0
+                    Principal = amortizedLoan.Principal,
+                    Balance = 0
                 };
             }
             else
@@ -126,8 +130,8 @@ public static class AmortizedLoanExtensions
                     Name = amortizedLoan.Name,
                     AnnualInterestRate = amortizedLoan.AnnualInterestRate,
                     LoanTermMonths = amortizedLoan.LoanTermMonths,
-                    LoanAmount = amortizedLoan.LoanAmount,
-                    RemainingBalance = amortizedLoan.RemainingBalance - nextPayment.Principal,
+                    Principal = amortizedLoan.Principal,
+                    Balance = amortizedLoan.Balance - nextPayment.Principal,
                 };
             }
             yield return nextPayment;

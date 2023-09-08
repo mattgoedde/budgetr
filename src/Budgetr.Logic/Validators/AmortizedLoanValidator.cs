@@ -1,4 +1,6 @@
-﻿namespace Budgetr.Logic.Validators;
+﻿using Budgetr.Class.Entities;
+
+namespace Budgetr.Logic.Validators;
 
 internal class AmortizedLoanValidator : AbstractValidator<AmortizedLoan>
 {
@@ -8,7 +10,7 @@ internal class AmortizedLoanValidator : AbstractValidator<AmortizedLoan>
             .NotEmpty()
             .WithMessage("Amortized Loans must have a name.");
 
-        RuleFor(l => l.LoanAmount)
+        RuleFor(l => l.Principal)
             .GreaterThan(0)
             .WithMessage("Amortized Loans must have a loan amount greater than 0.");
 
@@ -16,7 +18,7 @@ internal class AmortizedLoanValidator : AbstractValidator<AmortizedLoan>
             .GreaterThan(0)
             .WithMessage("Amortized Loans must have a term greater than 0 months.");
 
-        RuleFor(l => l.RemainingBalance)
+        RuleFor(l => l.Balance)
             .GreaterThan(0)
             .WithMessage("Amortized Loans must have a remaining balance greater than 0.");
 
