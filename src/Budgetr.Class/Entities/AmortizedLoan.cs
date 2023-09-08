@@ -11,9 +11,9 @@ public interface IAmortizedLoan
 
 public record AmortizedLoan : IAmortizedLoan
 {
-    public string Name { get; init; } = string.Empty;
-    public double LoanAmount { get; init; }
-    public double RemainingBalance { get; init; }
-    public double AnnualInterestRate { get; init; }
-    public int LoanTermMonths { get; init; }
+    public string Name { get; set; } = string.Empty;
+    public double LoanAmount { get; set; }
+    public double RemainingBalance { get; set; }
+    public double AnnualInterestRate { get; set; }
+    public int LoanTermMonths { get; set; }
 }
