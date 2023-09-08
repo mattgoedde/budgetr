@@ -29,7 +29,7 @@ jobs:
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Release --output ./output
+          dotnet build src/Budgetr.Api/Budgetr.Api.csproj -c Release -o ./output
           popd
 
       - name: 'Run Azure Functions Action'
