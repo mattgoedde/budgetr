@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.14.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Budgetr.Shared\Budgetr.Shared.csproj" />
+    <ProjectReference Include="..\Budgetr.Shared\Budgetr.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
