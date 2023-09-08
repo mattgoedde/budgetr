@@ -18,7 +18,7 @@ public class HealthCheck
     }
 
     [Function(nameof(HealthCheck))]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "/api/HealtCheck")] HttpRequest req)
     {
         using var timer = new MethodTimeLogger<HealthCheck>(_logger);
 
