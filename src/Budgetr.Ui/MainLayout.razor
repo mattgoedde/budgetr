@@ -1,5 +1,26 @@
 ﻿@inherits LayoutComponentBase
 
-<main>
-    @Body
-</main>
+<FluentHeader>
+    <h3>Budgetr</h3>
+    <FluentSpacer />
+    <FluentButton>Log In</FluentButton>
+</FluentHeader>
+<div class="budgetr-wrapper">
+    <FluentStack Orientation="@Orientation.Horizontal">
+        <FluentNavMenu Collapsible="true" Width="150">
+            <FluentNavMenuLink Href="/" Text="Home" Icon="@(new Icons.Regular.Size16.Home())" />
+        </FluentNavMenu>
+        <div>
+            @Body
+            <div class="budgetr-push"></div>
+        </div>
+    </FluentStack>
+</div>
+<footer class="budgetr-footer">
+    <FluentStack Orientation="@Orientation.Vertical" VerticalAlignment="@VerticalAlignment.Center" HorizontalAlignment="@HorizontalAlignment.Center">
+        &copy; @DateTime.Today.Year - Budgetr
+    </FluentStack>
+</footer>
+
+<FluentDialogProvider />
+<FluentToastContainer />

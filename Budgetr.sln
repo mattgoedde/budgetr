@@ -5,29 +5,31 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6CB54086-60BD-412B-97C9-52F2975DBC4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Api", "src\Budgetr.Api\Budgetr.Api.csproj", "{D470217C-5438-4C3A-BAF7-F111F1C07B9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Api", "src\Budgetr.Api\Budgetr.Api.csproj", "{D470217C-5438-4C3A-BAF7-F111F1C07B9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Ui", "src\Budgetr.Ui\Budgetr.Ui.csproj", "{2ABDCB5A-36E8-4CFA-B587-7FA3A7B5928A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Ui", "src\Budgetr.Ui\Budgetr.Ui.csproj", "{2ABDCB5A-36E8-4CFA-B587-7FA3A7B5928A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Class", "src\Budgetr.Class\Budgetr.Class.csproj", "{ADA0CB96-78CE-4119-870F-624E5A61937C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Class", "src\Budgetr.Class\Budgetr.Class.csproj", "{ADA0CB96-78CE-4119-870F-624E5A61937C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.DataAccess", "src\Budgetr.DataAccess\Budgetr.DataAccess.csproj", "{3BD20E75-84EF-4D7D-85EE-154247A69C7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.DataAccess", "src\Budgetr.DataAccess\Budgetr.DataAccess.csproj", "{3BD20E75-84EF-4D7D-85EE-154247A69C7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Logic", "src\Budgetr.Logic\Budgetr.Logic.csproj", "{88A3C086-7479-4925-969F-A7FD76DBD97B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Logic", "src\Budgetr.Logic\Budgetr.Logic.csproj", "{88A3C086-7479-4925-969F-A7FD76DBD97B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Shared", "src\Budgetr.Shared\Budgetr.Shared.csproj", "{80AE33AF-A047-4190-9C93-DD29B900EA78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Shared", "src\Budgetr.Shared\Budgetr.Shared.csproj", "{80AE33AF-A047-4190-9C93-DD29B900EA78}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8C592BE8-EA21-40CF-B3EA-31D8D57A51BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Tests", "test\Budgetr.Tests\Budgetr.Tests.csproj", "{7AEAF4C4-941D-4E31-9CEB-1EC19A3B8E25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Tests", "test\Budgetr.Tests\Budgetr.Tests.csproj", "{7AEAF4C4-941D-4E31-9CEB-1EC19A3B8E25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6A550B73-F83F-42BF-8831-DEAEA04CAD25}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\azure-static-web-apps-orange-bush-034ac320f.yml = .github\workflows\azure-static-web-apps-orange-bush-034ac320f.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D470217C-5438-4C3A-BAF7-F111F1C07B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -59,6 +61,9 @@ Global
 		{7AEAF4C4-941D-4E31-9CEB-1EC19A3B8E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AEAF4C4-941D-4E31-9CEB-1EC19A3B8E25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D470217C-5438-4C3A-BAF7-F111F1C07B9D} = {6CB54086-60BD-412B-97C9-52F2975DBC4F}
 		{2ABDCB5A-36E8-4CFA-B587-7FA3A7B5928A} = {6CB54086-60BD-412B-97C9-52F2975DBC4F}
@@ -67,5 +72,8 @@ Global
 		{88A3C086-7479-4925-969F-A7FD76DBD97B} = {6CB54086-60BD-412B-97C9-52F2975DBC4F}
 		{80AE33AF-A047-4190-9C93-DD29B900EA78} = {6CB54086-60BD-412B-97C9-52F2975DBC4F}
 		{7AEAF4C4-941D-4E31-9CEB-1EC19A3B8E25} = {8C592BE8-EA21-40CF-B3EA-31D8D57A51BD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2CD69454-9F9D-4D33-9AEA-913F30FFA9D1}
 	EndGlobalSection
 EndGlobal
