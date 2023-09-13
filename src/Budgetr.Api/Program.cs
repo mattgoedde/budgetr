@@ -1,7 +1,18 @@
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Azure.Functions.Worker.Configuration;
 
-var host = new HostBuilder()
-    .ConfigureFunctionsWebApplication()
-    .Build();
+namespace Budgetr.Api;
 
-host.Run();
+public class Program
+{
+    public static void Main()
+    {
+        var host = new HostBuilder()
+            .ConfigureFunctionsWorkerDefaults()
+            .Build();
+
+        host.Run();
+    }
+}
