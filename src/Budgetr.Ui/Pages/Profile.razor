@@ -2,9 +2,16 @@
 
 <h3>Profile</h3>
 
-<FluentAnchor Href="/.auth/login/aad">AAD Log In</FluentAnchor>
-<FluentAnchor Href="/.auth/login/github">GitHub Log In</FluentAnchor>
-<FluentAnchor Href="/.auth/logout">Log Out</FluentAnchor>
+<AuthorizeView>
+    <Authorized>
+        <p>Hello, @(context?.User?.Identity?.Name ?? "user")</p>
+        <FluentAnchor Href="/.auth/logout">Log Out</FluentAnchor>
+    </Authorized>
+    <NotAuthorized>
+        <FluentAnchor Href="/.auth/login/aad">Sign in with Microsoft</FluentAnchor>
+        <FluentAnchor Href="/.auth/login/github">Sign in with GitHub</FluentAnchor>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
 

@@ -15,6 +15,12 @@
             "allowedRoles": [
                 "administrator"
             ]
+        },
+        {
+            "route": "/api*",
+            "allowedRoles": [
+                "authenticated"
+            ]
         }
     ],
     "responseOverrides": {

@@ -2,10 +2,15 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Budgetr.Ui;
 using Microsoft.Fast.Components.FluentUI;
+using Microsoft.AspNetCore.Components.Authorization;
+using Budgetr.Ui.Authentication;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+
+builder.Services.AddAuthorizationCore()
+                .AddScoped<AuthenticationStateProvider, StaticWebAppAuthenticationStateProvider>();
 
 builder.Services.AddFluentUIComponents(options =>
 {
