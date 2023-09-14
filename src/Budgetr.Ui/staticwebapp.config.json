@@ -1,7 +1,20 @@
 {
+    "auth": {
+        "identityProviders": {
+            "google": {
+                "registration": {
+                    "clientIdSettingName": "GOOGLE_CLIENT_ID",
+                    "clientSecretSettingName": "GOOGLE_CLIENT_SECRET"
+                }
+            }
+        }
+    },
     "navigationFallback": {
         "rewrite": "/index.html",
-        "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
+        "exclude": [
+            "/images/*.{png,jpg,gif}",
+            "/css/*"
+        ]
     },
     "routes": [
         {
@@ -26,7 +39,7 @@
     "responseOverrides": {
         "401": {
             "statusCode": 302,
-            "redirect": "/.auth/login/aad"
+            "redirect": "/login"
         }
     }
 }
