@@ -7,7 +7,7 @@ public class Program
     public static void Main()
     {
         var host = new HostBuilder()
-            .ConfigureFunctionsWorkerDefaults()
+            .ConfigureFunctionsWebApplication()
             .Build();
 
         host.Run();

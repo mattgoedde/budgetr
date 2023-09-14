@@ -1,4 +1,6 @@
 using Budgetr.Class;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -8,18 +10,20 @@ using System.Net;
 
 namespace Budgetr.Api;
 
-public class HttpTrigger
+public class WeatherForecastFunc
 {
     private readonly ILogger _logger;
 
-    public HttpTrigger(ILoggerFactory loggerFactory)
+    public WeatherForecastFunc(ILoggerFactory loggerFactory)
     {
-        _logger = loggerFactory.CreateLogger<HttpTrigger>();
+        _logger = loggerFactory.CreateLogger<WeatherForecastFunc>();
     }
 
     [Function("WeatherForecast")]
-    public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
     {
+
+
         var randomNumber = new Random();
         var temp = 0;
 
@@ -30,10 +34,7 @@ public class HttpTrigger
             Summary = GetSummary(temp)
         }).ToArray();
 
-        var response = req.CreateResponse(HttpStatusCode.OK);
-        response.WriteAsJsonAsync(result);
-
-        return response;
+        return new OkObjectResult(result);
     }
 
     private string GetSummary(int temp)
