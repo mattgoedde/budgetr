@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Budgetr.DataAccess.Migrations
 {
     [DbContext(typeof(BudgetrDbContext))]
-    [Migration("20230915140908_InitialCreate")]
+    [Migration("20230915182927_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
