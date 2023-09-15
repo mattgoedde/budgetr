@@ -18,12 +18,6 @@
     },
     "routes": [
         {
-            "route": "/profile*",
-            "allowedRoles": [
-                "authenticated"
-            ]
-        },
-        {
             "route": "/profile",
             "allowedRoles": [
                 "authenticated"
