@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Budgetr.Class.Entities;
+﻿namespace Budgetr.Class.Entities;
 
 public interface IBudget<TIncome, TDeduction, TExpense, TAmortizedLoan>
     where TIncome : IIncome<TDeduction>
@@ -8,6 +6,7 @@ public interface IBudget<TIncome, TDeduction, TExpense, TAmortizedLoan>
     where TExpense : IExpense
     where TAmortizedLoan : IAmortizedLoan
 {
+    Guid UserId { get; }
     string Name { get; }
     ICollection<TIncome> Incomes { get; }
     ICollection<TExpense> Expenses { get; }
@@ -16,7 +15,7 @@ public interface IBudget<TIncome, TDeduction, TExpense, TAmortizedLoan>
 
 public record Budget : BaseEntity, IBudget<Income, Deduction, Expense, AmortizedLoan>
 {
-    [Required(AllowEmptyStrings = false, ErrorMessage = "You must give your budget a name")]
+    public Guid UserId { get; set; }
     public string Name { get; set; } = string.Empty;
 
     public ICollection<Income> Incomes { get; set; } = new List<Income>();
