@@ -22,6 +22,8 @@ public class BudgetFunctions
     public BudgetFunctions(ILogger<BudgetFunctions> logger, BudgetrDbContext db, IValidator<Budget> validator)
     {
         _logger = logger;
+        _db = db;
+        _validator = validator;
     }
 
     [Function("CreateBudget")]
@@ -45,10 +47,10 @@ public class BudgetFunctions
     }
 
     [Function("ReadBudgets")]
-    public async Task<IActionResult> Read([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "budget")]HttpRequest req)
+    public async Task<IActionResult> Read([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "budgets")]HttpRequest req)
     {
         var userId = req.SwaUserId();
-        if (userId == Guid.Empty) return new ForbidResult();
+        if (userId == Guid.Empty) return new StatusCodeResult(StatusCodes.Status403Forbidden);
         
         var budgets = await _db.Budgets.Where(b => b.UserId == userId).ToArrayAsync();
 
@@ -56,16 +58,16 @@ public class BudgetFunctions
     }
     
     [Function("ReadBudgetById")]
-    public async Task<IActionResult> Read([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "budget/{id:Guid}")]HttpRequest req, Guid id)
+    public async Task<IActionResult> ReadById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "budgets/{id:Guid}")]HttpRequest req, Guid id)
     {
         var userId = req.SwaUserId();
-        if (userId == Guid.Empty) return new ForbidResult();
+        if (userId == Guid.Empty) return new StatusCodeResult(StatusCodes.Status403Forbidden);
         
         var budget = await _db.Budgets.FindAsync(id);
 
         if (budget is null) return new NotFoundResult();
 
-        if (budget.UserId != userId) return new ForbidResult();
+        if (budget.UserId != userId) return new StatusCodeResult(StatusCodes.Status403Forbidden);
 
         return new OkObjectResult(budget);
     }
@@ -74,13 +76,13 @@ public class BudgetFunctions
     public async Task<IActionResult> Delete([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "budget/{id:Guid}")]HttpRequest req, Guid id)
     {
         var userId = req.SwaUserId();
-        if (userId == Guid.Empty) return new ForbidResult();
+        if (userId == Guid.Empty) return new StatusCodeResult(StatusCodes.Status403Forbidden);
         
         var budget = await _db.Budgets.FindAsync(id);
 
         if (budget is null) return new NotFoundResult();
 
-        if (budget.UserId != userId) return new ForbidResult();
+        if (budget.UserId != userId) return new StatusCodeResult(StatusCodes.Status403Forbidden);
 
         _db.Budgets.Remove(budget);
         await _db.SaveChangesAsync();

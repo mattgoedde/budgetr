@@ -1,0 +1,15 @@
+﻿@page "/profile"
+
+<h3>Profile</h3>
+
+<AuthorizeView>
+    <FluentStack Orientation="@Orientation.Vertical">
+        <p>@(context?.User?.Identity?.Name ?? "user")</p>
+        <FluentButton IconStart="@(new Icons.Regular.Size16.Delete())">Remove all data</FluentButton>
+        <FluentAnchor Href="/.auth/logout">Log Out</FluentAnchor>
+    </FluentStack>
+</AuthorizeView>
+
+@code {
+
+}
