@@ -42,9 +42,9 @@ public class BudgetrDbContext : DbContext
             .WithMany(b => b.AmortizedLoans);
     }
 
-    DbSet<Budget> Budgets { get; set; } = default!;
-    DbSet<AmortizedLoan> AmortizedLoans { get; set; } = default!;
-    DbSet<Expense> Expenses { get; set; } = default!;
-    DbSet<Deduction> Deductions { get; set; } = default!;
-    DbSet<Income> Incomes { get; set; } = default!;
+    public DbSet<Budget> Budgets { get; set; } = default!;
+    public DbSet<AmortizedLoan> AmortizedLoans { get; set; } = default!;
+    public DbSet<Expense> Expenses { get; set; } = default!;
+    public DbSet<Deduction> Deductions { get; set; } = default!;
+    public DbSet<Income> Incomes { get; set; } = default!;
 }

@@ -1,5 +1,4 @@
-﻿using Budgetr.Class.Entities;
-using Budgetr.Logic.Validators;
+﻿using Budgetr.Logic.Validators;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 
@@ -10,6 +9,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddSingletonValidators(this IServiceCollection services)
     {
         return services
+                .AddSingleton<IValidator<Budget>, BudgetValidator>()
                 .AddSingleton<IValidator<Income>, IncomeValidator>()
                 .AddSingleton<IValidator<Deduction>, DeductionValidator>()
                 .AddSingleton<IValidator<Expense>, ExpenseValidator>()
