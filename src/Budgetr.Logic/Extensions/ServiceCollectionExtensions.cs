@@ -6,7 +6,7 @@ namespace Budgetr.Logic.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddSingletonValidators(this IServiceCollection services)
+    public static IServiceCollection AddBudgetrValidators(this IServiceCollection services)
     {
         return services
                 .AddSingleton<IValidator<Budget>, BudgetValidator>()
