@@ -18,7 +18,7 @@
     },
     "routes": [
         {
-            "route": "/profile",
+            "route": "/profile*",
             "allowedRoles": [
                 "authenticated"
             ]

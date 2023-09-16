@@ -1,0 +1,90 @@
+@page "/profile/budgets"
+
+@inject ILogger<BudgetPage> logger
+@inject IToastService toast
+@inject BudgetrApiService api
+
+<FluentToolbar>
+    <FluentSelect Items="@budgets" OptionValue="@(b => b.BudgetId.ToString())" OptionText="@(b => b.BudgetName)" @bind-SelectedOption="@selectedBudget" />
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" />
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())"/>
+    <FrequencySelect @bind-Value="@frequency" />
+</FluentToolbar>
+
+@if (selectedBudget is not null)
+{
+    <FluentGrid>
+        <FluentGridItem>
+            <a href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">
+                <FluentCard>
+                    <FluentHeader>
+                        Gross Income
+                    </FluentHeader>
+                    <div>
+                        @selectedBudget?.GrossIncome
+                    </div>
+                </FluentCard>
+            </a>
+        </FluentGridItem>
+        <FluentGridItem>
+            <a href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">
+                <FluentCard>
+                    <FluentHeader>
+                        Net Income
+                    </FluentHeader>
+                    <div>
+                        @selectedBudget?.NetIncome
+                    </div>
+                </FluentCard>
+            </a>
+        </FluentGridItem>
+    </FluentGrid>
+}
+
+@code {
+    Frequency frequency = Frequency.Monthly;
+    BudgetSummaryModel? selectedBudget;
+    IEnumerable<BudgetSummaryModel> budgets = Enumerable.Empty<BudgetSummaryModel>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        await RefreshDataAsync();
+    }
+
+    async Task AddButton()
+    {
+
+    }
+
+    async Task AddBudget()
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+
+        }
+    }
+
+    async Task RefreshDataAsync()
+    {
+        try
+        {
+            budgets = await api.GetSummaries();
+        }
+        catch (Exception ex)
+        {
+            toast.ShowError($"Error retrieving your data");
+            logger.LogError(ex, "Error retrieving budget summaries");
+            budgets = Enumerable.Empty<BudgetSummaryModel>();
+        }
+    }
+}

@@ -1,0 +1,30 @@
+<FluentSelect TOption="string" Placeholder="Select a frequency" ValueChanged="@(e => Value = Enum.Parse<Frequency>(e))">
+    <FluentIcon Icon="Icons.Regular.Size16.Calendar" Slot="indicator" />
+    <FluentOption TOption="string" Value="@(Frequency.Yearly.ToString())">Yearly</FluentOption>
+    <FluentOption TOption="string" Value="@(Frequency.BiYearly.ToString())">BiYearly</FluentOption>
+    <FluentOption TOption="string" Value="@(Frequency.Quarterly.ToString())">Quarterly</FluentOption>
+    <FluentOption TOption="string" Value="@(Frequency.Monthly.ToString())">Monthly</FluentOption>
+    <FluentOption TOption="string" Value="@(Frequency.BiWeekly.ToString())">BiWeekly</FluentOption>
+    <FluentOption TOption="string" Value="@(Frequency.Weekly.ToString())">Weekly</FluentOption>
+    <FluentOption TOption="string" Value="@(Frequency.Hourly.ToString())">Hourly</FluentOption>
+</FluentSelect>
+
+@code {
+    [Parameter]
+    public Frequency Value 
+    {
+        get => Enum.Parse<Frequency>(frequency);
+        set 
+        {
+            if (value.ToString() != frequency)
+            {
+                frequency = value.ToString();
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+    [Parameter]
+    public EventCallback<Frequency> ValueChanged { get; set; }
+
+    string? frequency;
+}

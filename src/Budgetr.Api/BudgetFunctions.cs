@@ -3,7 +3,10 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Budgetr.Class.Entities;
+using Budgetr.Class.Enums;
+using Budgetr.Class.Models;
 using Budgetr.DataAccess;
+using Budgetr.Logic.Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -88,5 +91,43 @@ public class BudgetFunctions
         await _db.SaveChangesAsync();
 
         return new NoContentResult();
+    }
+
+    [Function("SummarizeBudgets")]
+    public async Task<IActionResult> Summarize([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "budgets/summarize")]HttpRequest req)
+    {
+        var userId = req.SwaUserId();
+        if (userId == Guid.Empty) return new StatusCodeResult(StatusCodes.Status403Forbidden);
+        
+        var budgets = await _db.Budgets
+            .Where(b => b.UserId == userId)
+            .Include(b => b.AmortizedLoans)
+            .Include(b => b.Expenses)
+            .Include(b => b.Incomes).ThenInclude(i => i.Deductions)
+            .Select(b => 
+            new BudgetSummaryModel
+            {
+                BudgetId = b.Id,
+                BudgetName = b.Name,
+                Frequency = Frequency.Monthly,
+                GrossIncome = b.Incomes.Select(i => i.To(Frequency.Monthly)).Sum(i => i.Amount),
+                PreTaxDeductions = b.Incomes.Select(i => i.To(Frequency.Monthly)).SelectMany(i => i.Deductions.Where(d => d.DeductionType == DeductionType.PreTax)).Sum(d => d.Amount),
+                TaxDeductions = b.Incomes.Select(i => i.To(Frequency.Monthly)).SelectMany(i => i.Deductions.Where(d => d.DeductionType == DeductionType.Tax)).Sum(d => d.Amount),
+                PostTaxDeductions = b.Incomes.Select(i => i.To(Frequency.Monthly)).SelectMany(i => i.Deductions.Where(d => d.DeductionType == DeductionType.PostTax)).Sum(d => d.Amount),
+                MortagePayment = b.AmortizedLoans.Where(l => l.LoanType == LoanType.Mortage).Sum(l => l.NextPayment().Total),
+                CarPayment = b.AmortizedLoans.Where(l => l.LoanType == LoanType.Car).Sum(l => l.NextPayment().Total),
+                CreditCardPayment = b.AmortizedLoans.Where(l => l.LoanType == LoanType.CreditCard).Sum(l => l.NextPayment().Total),
+                PersonalLoanPayment = b.AmortizedLoans.Where(l => l.LoanType == LoanType.Personal).Sum(l => l.NextPayment().Total),
+                OtherLoanPayment = b.AmortizedLoans.Where(l => l.LoanType == LoanType.Other).Sum(l => l.NextPayment().Total),
+                HousingExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
+                TransportationExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
+                CellularExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
+                GroceryExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
+                LeisureExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
+                MiscellaneousExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
+            })
+            .ToArrayAsync();
+
+        return new OkObjectResult(budgets);
     }
 }

@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug - UI",
+            "type": "blazorwasm",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/src/Budgetr.Ui"
+        },
+        {
             "name": "SWA: Run mattgoedde.budgetr (swa-cli.config.json)",
             "request": "launch",
             "type": "chrome",
