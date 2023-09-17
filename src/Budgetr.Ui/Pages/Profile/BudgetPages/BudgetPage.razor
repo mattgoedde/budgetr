@@ -2,12 +2,13 @@
 
 @inject ILogger<BudgetPage> logger
 @inject IToastService toast
+@inject IDialogService dialog
 @inject BudgetrApiService api
 
 <FluentToolbar>
     <FluentSelect Items="@budgets" OptionValue="@(b => b.BudgetId.ToString())" OptionText="@(b => b.BudgetName)" @bind-SelectedOption="@selectedBudget" />
-    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" />
-    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())"/>
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@DeleteButtonAsync"/>
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@AddButtonAsync"/>
     <FrequencySelect @bind-Value="@frequency" />
 </FluentToolbar>
 
@@ -53,24 +54,71 @@
         await RefreshDataAsync();
     }
 
-    async Task AddButton()
+    async Task AddButtonAsync()
     {
-
+        await AddBudgetAsync();
     }
 
-    async Task AddBudget()
+    async Task DeleteButtonAsync()
+    {
+        await DeleteBudgetAsync();
+    }
+
+    async Task AddBudgetAsync()
     {
         try
         {
+            var addDialog = await dialog.ShowPanelAsync<BudgetAddPanel, Budget>(new DialogParameters<Budget>
+                {
+                    Title = "Add Budget",
+                    Content = new Budget(),
+                    Alignment = HorizontalAlignment.Right
+                });
+            
+            var result = await addDialog.Result;
 
+            if (result.Cancelled) return;
+            if (result.Data is null) return;
+
+            var newBudget = result.Data as Budget;
+
+            if(newBudget is null) return;
+
+            await api.CreateBudget(newBudget);
         }
         catch (Exception ex)
         {
-
+            toast.ShowError("Error creating new budget");
+            logger.LogError(ex, "Error creating new budget");
         }
         finally
         {
+            await RefreshDataAsync();
+        }
+    }
 
+    async Task DeleteBudgetAsync()
+    {
+        try
+        {
+            if (selectedBudget is null) return;
+
+            var deleteConfirmation = await dialog.ShowConfirmationAsync("Are you sure?", title: $"Delete {selectedBudget?.BudgetName}");
+
+            var result = await deleteConfirmation.Result;
+
+            if (result.Cancelled) return;
+
+            await api.DeleteBudget(selectedBudget?.BudgetId ?? throw new Exception("Null budget"));
+        }   
+        catch (Exception ex)
+        {
+            toast.ShowError($"Error deleting {selectedBudget?.BudgetName ?? "budget"}");
+            logger.LogError(ex, "Error deleting budget");
+        } 
+        finally
+        {
+            await RefreshDataAsync();
         }
     }
 
@@ -85,6 +133,10 @@
             toast.ShowError($"Error retrieving your data");
             logger.LogError(ex, "Error retrieving budget summaries");
             budgets = Enumerable.Empty<BudgetSummaryModel>();
+        }
+        finally
+        {
+            StateHasChanged();
         }
     }
 }

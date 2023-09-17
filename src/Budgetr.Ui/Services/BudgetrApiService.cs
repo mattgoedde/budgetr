@@ -10,20 +10,30 @@ public class BudgetrApiService
 {
     private readonly ILogger<BudgetrApiService> _logger;
     private readonly HttpClient _http;
-    private readonly IValidator<Budget> _validator;
+    private readonly IValidator<Budget> _budgetValidator;
 
-    public BudgetrApiService(ILogger<BudgetrApiService> logger, HttpClient http)
+    public BudgetrApiService(ILogger<BudgetrApiService> logger, HttpClient http, IValidator<Budget> budgetValidator)
     {
         _logger = logger;
         _http = http;
+        _budgetValidator = budgetValidator;
     }
 
     public async Task CreateBudget(Budget newBudget)
     {
-        _validator.ValidateAndThrow(newBudget);
+        using var timer = new MethodTimeLogger<BudgetrApiService>(_logger);
+
+        _budgetValidator.ValidateAndThrow(newBudget);
 
         await _http.PostAsJsonAsync("/api/budgets", newBudget);
-    }   
+    }
+
+    public async Task DeleteBudget(Guid budgetId)
+    {
+        using var timer = new MethodTimeLogger<BudgetrApiService>(_logger);
+
+        await _http.DeleteAsync($"/api/budgets/{budgetId}");
+    }
 
     public async Task<IEnumerable<BudgetSummaryModel>> GetSummaries()
     {

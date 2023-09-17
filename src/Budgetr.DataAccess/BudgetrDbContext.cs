@@ -1,4 +1,6 @@
 ﻿using Budgetr.Class.Entities;
+using Budgetr.Class.Enums;
+using Budgetr.Logic.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -14,14 +16,16 @@ public class BudgetrDbContext : DbContext
         _logger = logger;
     }
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<DeductionType>().HaveConversion<int>();
+        configurationBuilder.Properties<ExpenseType>().HaveConversion<int>();
+        configurationBuilder.Properties<LoanType>().HaveConversion<int>();
+        configurationBuilder.Properties<Frequency>().HaveConversion<int>();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.Entity<Budget>().ToTable("Budgets");
-        // modelBuilder.Entity<Income>().ToTable("Incomes");
-        // modelBuilder.Entity<Deduction>().ToTable("Deductions");
-        // modelBuilder.Entity<Expense>().ToTable("Expenses");
-        // modelBuilder.Entity<AmortizedLoan>().ToTable("AmortizedLoans");
-
         modelBuilder
             .Entity<Income>()
             .HasMany(i => i.Deductions)

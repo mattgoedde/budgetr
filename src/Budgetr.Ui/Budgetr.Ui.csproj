@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Budgetr.Class\Budgetr.Class.csproj" />
     <ProjectReference Include="..\Budgetr.Shared\Budgetr.Shared.csproj" />
+    <ProjectReference Include="..\Budgetr.Logic\Budgetr.Logic.csproj" />
   </ItemGroup>
 
 </Project>

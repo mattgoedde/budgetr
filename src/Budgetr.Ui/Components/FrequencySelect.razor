@@ -1,4 +1,4 @@
-<FluentSelect TOption="string" Placeholder="Select a frequency" ValueChanged="@(e => Value = Enum.Parse<Frequency>(e))">
+<FluentSelect TOption="string" Placeholder="Select a frequency" ValueChanged="@(e => Value = Enum.Parse<Frequency>(e))" Value="@Value.ToString()">
     <FluentIcon Icon="Icons.Regular.Size16.Calendar" Slot="indicator" />
     <FluentOption TOption="string" Value="@(Frequency.Yearly.ToString())">Yearly</FluentOption>
     <FluentOption TOption="string" Value="@(Frequency.BiYearly.ToString())">BiYearly</FluentOption>

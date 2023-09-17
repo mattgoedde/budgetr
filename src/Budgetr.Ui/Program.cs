@@ -5,12 +5,14 @@ using Microsoft.Fast.Components.FluentUI;
 using Microsoft.AspNetCore.Components.Authorization;
 using Budgetr.Ui.Authentication;
 using Budgetr.Ui.Services;
+using Budgetr.Logic.Extensions;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services
+    .AddBudgetrValidators()
     .AddScoped<BudgetrApiService>()
     .AddAuthorizationCore()
     .AddScoped<AuthenticationStateProvider, StaticWebAppAuthenticationStateProvider>();

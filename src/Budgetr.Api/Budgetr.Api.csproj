@@ -23,5 +23,6 @@
     <ProjectReference Include="..\Budgetr.Class\Budgetr.Class.csproj" />
     <ProjectReference Include="..\Budgetr.DataAccess\Budgetr.DataAccess.csproj" />
     <ProjectReference Include="..\Budgetr.Logic\Budgetr.Logic.csproj" />
+    <ProjectReference Include="..\Budgetr.Shared\Budgetr.Shared.csproj" />
   </ItemGroup>
 </Project>

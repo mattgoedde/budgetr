@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Budgetr.Class.Enums;
 using Budgetr.Class.Models;
 using Budgetr.DataAccess;
 using Budgetr.Logic.Extensions;
+using Budgetr.Shared;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,10 +32,16 @@ public class BudgetFunctions
     }
 
     [Function("CreateBudget")]
-    public async Task<IActionResult> Create([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "budget")]HttpRequest req)
+    public async Task<IActionResult> Create([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "budgets")]HttpRequest req)
     {
+        using var timer = new MethodTimeLogger<BudgetFunctions>(_logger);
+
+        _logger.LogInformation("CreateBudget invoked");
+
         var userId = req.SwaUserId();
         if (userId == Guid.Empty) return new ForbidResult();
+
+        _logger.LogDebug("User authenticated {userId}", userId);
 
         var newBudget = await JsonSerializer.DeserializeAsync<Budget>(req.Body);
         
@@ -41,10 +49,14 @@ public class BudgetFunctions
         if (!validationResult.IsValid)
             return new BadRequestObjectResult(validationResult.Errors);
 
-        newBudget = newBudget with { UserId = userId };
+        _logger.LogInformation("Budget validated");
+
+        newBudget = newBudget with { UserId = userId, Id = Guid.NewGuid()};
 
         var entry = await _db.Budgets.AddAsync(newBudget);
         await _db.SaveChangesAsync();
+
+        _logger.LogInformation("Budget created");
 
         return new CreatedResult($"/api/budget/{entry.Entity.Id}", entry.Entity);
     }
@@ -52,8 +64,14 @@ public class BudgetFunctions
     [Function("ReadBudgets")]
     public async Task<IActionResult> Read([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "budgets")]HttpRequest req)
     {
+        using var timer = new MethodTimeLogger<BudgetFunctions>(_logger);
+
+        _logger.LogInformation("ReadBudgets invoked");
+
         var userId = req.SwaUserId();
-        if (userId == Guid.Empty) return new StatusCodeResult(StatusCodes.Status403Forbidden);
+        if (userId == Guid.Empty) return new ForbidResult();
+
+        _logger.LogDebug("User authenticated {userId}", userId);
         
         var budgets = await _db.Budgets.Where(b => b.UserId == userId).ToArrayAsync();
 
@@ -63,8 +81,14 @@ public class BudgetFunctions
     [Function("ReadBudgetById")]
     public async Task<IActionResult> ReadById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "budgets/{id:Guid}")]HttpRequest req, Guid id)
     {
+        using var timer = new MethodTimeLogger<BudgetFunctions>(_logger);
+
+        _logger.LogInformation("ReadBudgetById invoked");
+
         var userId = req.SwaUserId();
-        if (userId == Guid.Empty) return new StatusCodeResult(StatusCodes.Status403Forbidden);
+        if (userId == Guid.Empty) return new ForbidResult();
+
+        _logger.LogDebug("User authenticated {userId}", userId);
         
         var budget = await _db.Budgets.FindAsync(id);
 
@@ -76,10 +100,16 @@ public class BudgetFunctions
     }
 
     [Function("DeleteBudget")]
-    public async Task<IActionResult> Delete([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "budget/{id:Guid}")]HttpRequest req, Guid id)
+    public async Task<IActionResult> Delete([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "budgets/{id:Guid}")]HttpRequest req, Guid id)
     {
+        using var timer = new MethodTimeLogger<BudgetFunctions>(_logger);
+
+        _logger.LogInformation("DeleteBudget invoked");
+
         var userId = req.SwaUserId();
-        if (userId == Guid.Empty) return new StatusCodeResult(StatusCodes.Status403Forbidden);
+        if (userId == Guid.Empty) return new ForbidResult();
+
+        _logger.LogDebug("User authenticated {userId}", userId);
         
         var budget = await _db.Budgets.FindAsync(id);
 
@@ -96,15 +126,23 @@ public class BudgetFunctions
     [Function("SummarizeBudgets")]
     public async Task<IActionResult> Summarize([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "budgets/summarize")]HttpRequest req)
     {
+        using var timer = new MethodTimeLogger<BudgetFunctions>(_logger);
+
+        _logger.LogInformation("SummarizeBudgets invoked");
+
         var userId = req.SwaUserId();
-        if (userId == Guid.Empty) return new StatusCodeResult(StatusCodes.Status403Forbidden);
+        if (userId == Guid.Empty) return new ForbidResult();
+
+        _logger.LogDebug("User authenticated {userId}", userId);
         
         var budgets = await _db.Budgets
             .Where(b => b.UserId == userId)
             .Include(b => b.AmortizedLoans)
             .Include(b => b.Expenses)
             .Include(b => b.Incomes).ThenInclude(i => i.Deductions)
-            .Select(b => 
+            .ToArrayAsync();
+
+        var summaries = budgets.Select(b => 
             new BudgetSummaryModel
             {
                 BudgetId = b.Id,
@@ -125,9 +163,8 @@ public class BudgetFunctions
                 GroceryExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
                 LeisureExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
                 MiscellaneousExpenses = b.Expenses.Where(e => e.ExpenseType == ExpenseType.Housing).Select(e => e.To(Frequency.Monthly)).Sum(e => e.Amount),
-            })
-            .ToArrayAsync();
+            }).ToArray();
 
-        return new OkObjectResult(budgets);
+        return new OkObjectResult(summaries);
     }
 }
