@@ -3,15 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Budgetr.Class.Entities;
 
-public interface IExpense
-{
-    string Name { get; }
-    double Amount { get; }
-    Frequency Frequency { get; }
-    ExpenseType ExpenseType { get; }
-}
-
-public record Expense : BudgetEntity, IExpense
+public record Expense : BudgetEntity
 {
     [Required(AllowEmptyStrings = false, ErrorMessage = "Expenses must have a name!")]
     public string Name { get; set; } = string.Empty;

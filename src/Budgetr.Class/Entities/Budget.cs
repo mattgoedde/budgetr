@@ -2,20 +2,7 @@
 
 namespace Budgetr.Class.Entities;
 
-public interface IBudget<TIncome, TDeduction, TExpense, TAmortizedLoan>
-    where TIncome : IIncome<TDeduction>
-    where TDeduction : IDeduction
-    where TExpense : IExpense
-    where TAmortizedLoan : IAmortizedLoan
-{
-    Guid UserId { get; }
-    string Name { get; }
-    ICollection<TIncome> Incomes { get; }
-    ICollection<TExpense> Expenses { get; }
-    ICollection<TAmortizedLoan> AmortizedLoans { get; }
-}
-
-public record Budget : BaseEntity, IBudget<Income, Deduction, Expense, AmortizedLoan>
+public record Budget : BaseEntity
 {
     [JsonPropertyName("userId")]
     public Guid UserId { get; set; }

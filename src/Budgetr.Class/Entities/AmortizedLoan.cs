@@ -3,17 +3,7 @@ using Budgetr.Class.Enums;
 
 namespace Budgetr.Class.Entities;
 
-public interface IAmortizedLoan
-{
-    string Name { get; }
-    LoanType LoanType { get; }
-    double Principal { get; }
-    double Balance { get; }
-    double AnnualInterestRate { get; }
-    int LoanTermMonths { get; }
-}
-
-public record AmortizedLoan : BudgetEntity, IAmortizedLoan
+public record AmortizedLoan : BudgetEntity
 {
     public string Name { get; set; } = string.Empty;
     public LoanType LoanType { get; set; }

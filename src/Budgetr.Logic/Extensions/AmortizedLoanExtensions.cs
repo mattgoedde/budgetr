@@ -36,9 +36,9 @@ public static class AmortizedLoanExtensions
         return principalPayment;
     }
 
-    public static LoanPayment NextPayment(this IAmortizedLoan amortizedLoan) => amortizedLoan.NextPayment(DateTime.Today);
+    public static LoanPayment NextPayment(this AmortizedLoan amortizedLoan) => amortizedLoan.NextPayment(DateTime.Today);
 
-    public static LoanPayment NextPayment(this IAmortizedLoan amortizedLoan, DateTime date)
+    public static LoanPayment NextPayment(this AmortizedLoan amortizedLoan, DateTime date)
     {
         if (double.IsNaN(amortizedLoan.Principal) ||
             double.IsNaN(amortizedLoan.Balance) ||
@@ -63,9 +63,9 @@ public static class AmortizedLoanExtensions
         };
     }
 
-    public static IEnumerable<LoanPayment> AllPayments(this IAmortizedLoan amortizedLoan) => amortizedLoan.AllPayments(DateTime.Today);
+    public static IEnumerable<LoanPayment> AllPayments(this AmortizedLoan amortizedLoan) => amortizedLoan.AllPayments(DateTime.Today);
 
-    public static IEnumerable<LoanPayment> AllPayments(this IAmortizedLoan amortizedLoan, DateTime startDate)
+    public static IEnumerable<LoanPayment> AllPayments(this AmortizedLoan amortizedLoan, DateTime startDate)
     {
         if (double.IsNaN(amortizedLoan.Principal) ||
             double.IsNaN(amortizedLoan.Balance) ||
@@ -84,9 +84,9 @@ public static class AmortizedLoanExtensions
         return amortizedLoan.RemainingPayments(startDate);
     }
 
-    public static IEnumerable<LoanPayment> RemainingPayments(this IAmortizedLoan amortizedLoan) => amortizedLoan.RemainingPayments(DateTime.Today);
+    public static IEnumerable<LoanPayment> RemainingPayments(this AmortizedLoan amortizedLoan) => amortizedLoan.RemainingPayments(DateTime.Today);
 
-    public static IEnumerable<LoanPayment> RemainingPayments(this IAmortizedLoan amortizedLoan, DateTime startDate)
+    public static IEnumerable<LoanPayment> RemainingPayments(this AmortizedLoan amortizedLoan, DateTime startDate)
     {
         if (amortizedLoan is null) 
             yield break;

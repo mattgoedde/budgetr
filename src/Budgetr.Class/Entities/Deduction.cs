@@ -3,15 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Budgetr.Class.Entities;
 
-public interface IDeduction
-{
-    string Name { get; }
-    double Amount { get; }
-    Frequency Frequency { get; }
-    DeductionType DeductionType { get; }
-}
-
-public record Deduction : BudgetEntity, IDeduction
+public record Deduction : BudgetEntity
 {
     [Required(AllowEmptyStrings = false, ErrorMessage = "Deductions must have a name!")]
     public string Name { get; set; } = string.Empty;

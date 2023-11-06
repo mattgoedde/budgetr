@@ -8,14 +8,14 @@
 <div class="budgetr-wrapper">
     <FluentStack Orientation="@Orientation.Horizontal">
         <FluentNavMenu Collapsible="true" Width="150">
-            <FluentNavMenuLink Href="/" Text="Home" Icon="@(new Icons.Regular.Size16.Home())" />
-            <FluentNavMenuGroup Text="Tools" Icon="@(new Icons.Regular.Size16.Toolbox())">
-                <FluentNavMenuLink Text="Amortization Calculator" Href="/tools/amortization-calculator" Icon="@(new Icons.Regular.Size16.BuildingBank())" />
-            </FluentNavMenuGroup>
+            <FluentNavLink Href="/" Icon="@(new Icons.Regular.Size16.Home())">Home</FluentNavLink>
+            <FluentNavGroup Title="Tools" Icon="@(new Icons.Regular.Size16.Toolbox())">
+                <FluentNavLink Href="/tools/amortization-calculator" Icon="@(new Icons.Regular.Size16.BuildingBank())">Amortization Calculator</FluentNavLink>
+            </FluentNavGroup>
             <AuthorizeView>
-                <FluentNavMenuGroup Text="Profile" Icon="@(new Icons.Regular.Size16.Person())" Href="/profile">
-                    <FluentNavMenuLink Href="/profile/budgets" Text="Budget" Icon="@(new Icons.Regular.Size16.Calculator())"/>
-                </FluentNavMenuGroup>
+                <FluentNavGroup Title="Profile" Icon="@(new Icons.Regular.Size16.Person())" Href="/profile">
+                    <FluentNavLink Href="/profile/budgets" Icon="@(new Icons.Regular.Size16.Calculator())">Budget</FluentNavLink>
+                </FluentNavGroup>
             </AuthorizeView>
         </FluentNavMenu>
         <div>
@@ -31,5 +31,5 @@
 </footer>
 
 <FluentDialogProvider />
-<FluentToastContainer />
+<FluentToastProvider />
 <FluentTooltipProvider />

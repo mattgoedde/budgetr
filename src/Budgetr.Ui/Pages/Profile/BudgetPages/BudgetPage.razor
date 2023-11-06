@@ -5,41 +5,24 @@
 @inject IDialogService dialog
 @inject BudgetrApiService api
 
-<FluentToolbar>
+<FluentToolbar Style="width: 100%">
     <FluentSelect Items="@budgets" OptionValue="@(b => b.BudgetId.ToString())" OptionText="@(b => b.BudgetName)" @bind-SelectedOption="@selectedBudget" />
     <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@DeleteButtonAsync"/>
     <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@AddButtonAsync"/>
+    <FluentSpacer />
     <FrequencySelect @bind-Value="@frequency" />
 </FluentToolbar>
 
 @if (selectedBudget is not null)
 {
-    <FluentGrid>
-        <FluentGridItem>
-            <a href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">
-                <FluentCard>
-                    <FluentHeader>
-                        Gross Income
-                    </FluentHeader>
-                    <div>
-                        @selectedBudget?.GrossIncome
-                    </div>
-                </FluentCard>
-            </a>
-        </FluentGridItem>
-        <FluentGridItem>
-            <a href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">
-                <FluentCard>
-                    <FluentHeader>
-                        Net Income
-                    </FluentHeader>
-                    <div>
-                        @selectedBudget?.NetIncome
-                    </div>
-                </FluentCard>
-            </a>
-        </FluentGridItem>
-    </FluentGrid>
+    <div>
+        <FluentAnchor Href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">Gross Income - @(selectedBudget.GrossIncome)</FluentAnchor>
+        <FluentAnchor Href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">Net Income - @(selectedBudget.NetIncome)</FluentAnchor>
+    </div>
+}
+else
+{
+    <FluentLabel>No budget selected</FluentLabel>
 }
 
 @code {
@@ -68,7 +51,7 @@
     {
         try
         {
-            var addDialog = await dialog.ShowPanelAsync<BudgetAddPanel, Budget>(new DialogParameters<Budget>
+            var addDialog = await dialog.ShowPanelAsync<BudgetAddPanel>(new Budget(), new DialogParameters<Budget>
                 {
                     Title = "Add Budget",
                     Content = new Budget(),
@@ -127,6 +110,9 @@
         try
         {
             budgets = await api.GetSummaries();
+
+            if (selectedBudget is null) 
+                selectedBudget = budgets.FirstOrDefault();
         }
         catch (Exception ex)
         {
