@@ -29,6 +29,62 @@
                 <FluentGridItem xs="6">@selectedBudget.PostTaxDeductions.ToString("C")</FluentGridItem>
                 <FluentGridItem xs="6">Net</FluentGridItem>
                 <FluentGridItem xs="6">@selectedBudget.NetIncome.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Disposable (after all expenses)</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.DisposableIncome.ToString("C")</FluentGridItem>
+            </FluentGrid>
+        </FluentCard>
+    </HiddenLink>
+    <HiddenLink Href="@($"/profile/budgets/{selectedBudget.BudgetId}/housing")">
+        <FluentCard Width="fit-content" Height="fit-content">
+            <FluentLabel Weight="@FontWeight.Bold" Typo="@Typography.Subject">Housing</FluentLabel>
+            <FluentGrid Spacing="0" Justify="@JustifyContent.SpaceBetween">
+                <FluentGridItem xs="6">Mortgage Payments</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.MortagePayment.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Housing Expenses</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.HousingExpenses.ToString("C")</FluentGridItem>
+            </FluentGrid>
+        </FluentCard>
+    </HiddenLink>
+    <HiddenLink Href="@($"/profile/budgets/{selectedBudget.BudgetId}/transportation")">
+        <FluentCard Width="fit-content" Height="fit-content">
+            <FluentLabel Weight="@FontWeight.Bold" Typo="@Typography.Subject">Transportation</FluentLabel>
+            <FluentGrid Spacing="0" Justify="@JustifyContent.SpaceBetween">
+                <FluentGridItem xs="6">Car Payments</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.CarPayment.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Transportation Expenses</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.TransportationExpenses.ToString("C")</FluentGridItem>
+            </FluentGrid>
+        </FluentCard>
+    </HiddenLink>
+    <HiddenLink Href="@($"/profile/budgets/{selectedBudget.BudgetId}/loans")">
+        <FluentCard Width="fit-content" Height="fit-content">
+            <FluentLabel Weight="@FontWeight.Bold" Typo="@Typography.Subject">Loans</FluentLabel>
+            <FluentGrid Spacing="0" Justify="@JustifyContent.SpaceBetween">
+                <FluentGridItem xs="6">Credit Card Payments</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.CreditCardPayment.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Personal Loan Payments</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.PersonalLoanPayment.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Other Loan Payments</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.OtherLoanPayment.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Total Loan Payments</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.LoanPayments.ToString("C")</FluentGridItem>
+            </FluentGrid>
+        </FluentCard>
+    </HiddenLink>
+    <HiddenLink Href="@($"/profile/budgets/{selectedBudget.BudgetId}/expenses")">
+        <FluentCard Width="fit-content" Height="fit-content">
+            <FluentLabel Weight="@FontWeight.Bold" Typo="@Typography.Subject">Expenses</FluentLabel>
+            <FluentGrid Spacing="0" Justify="@JustifyContent.SpaceBetween">
+                <FluentGridItem xs="6">Cellular Expenses</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.CellularExpenses.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Grocery Expenses</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.GroceryExpenses.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Leisure Expenses</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.LeisureExpenses.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Miscellaneous Expenses</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.MiscellaneousExpenses.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Total Expenses</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.Expenses.ToString("C")</FluentGridItem>
             </FluentGrid>
         </FluentCard>
     </HiddenLink>
