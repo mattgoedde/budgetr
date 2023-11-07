@@ -1,0 +1,14 @@
+<a class="hidden-link" href="@Href" target="@Target">
+    @ChildContent
+</a>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Href { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Target { get; set; } = "_self";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

@@ -15,10 +15,23 @@
 
 @if (selectedBudget is not null)
 {
-    <div>
-        <FluentAnchor Href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">Gross Income - @(selectedBudget.GrossIncome)</FluentAnchor>
-        <FluentAnchor Href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">Net Income - @(selectedBudget.NetIncome)</FluentAnchor>
-    </div>
+    <HiddenLink Href="@($"/profile/budgets/{selectedBudget.BudgetId}/income")">
+        <FluentCard Width="fit-content" Height="fit-content">
+            <FluentLabel Weight="@FontWeight.Bold" Typo="@Typography.Subject">Income</FluentLabel>
+            <FluentGrid Spacing="0" Justify="@JustifyContent.SpaceBetween">
+                <FluentGridItem xs="6">Gross</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.GrossIncome.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Pre-Tax Deductions</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.PreTaxDeductions.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Taxes</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.TaxDeductions.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">After Tax Deductions</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.PostTaxDeductions.ToString("C")</FluentGridItem>
+                <FluentGridItem xs="6">Net</FluentGridItem>
+                <FluentGridItem xs="6">@selectedBudget.NetIncome.ToString("C")</FluentGridItem>
+            </FluentGrid>
+        </FluentCard>
+    </HiddenLink>
 }
 else
 {

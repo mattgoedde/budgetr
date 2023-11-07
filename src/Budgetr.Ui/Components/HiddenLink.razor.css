@@ -1,0 +1,7 @@
+a.hidden-link {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    text-decoration: none;
+    color: unset;
+}

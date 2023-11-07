@@ -3,6 +3,10 @@
     margin-bottom: -50px;
 }
 
+.budgetr-body {
+    width: 100%;
+}
+
 .budgetr-footer,
 .budgetr-push {
     height: 50px;
