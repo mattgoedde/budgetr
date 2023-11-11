@@ -1,35 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
-<FluentHeader>
-    <h3>Budgetr</h3>
-    <FluentSpacer />
-    <ProfileMenu />
-</FluentHeader>
-<div class="budgetr-wrapper">
-    <FluentStack Orientation="@Orientation.Horizontal">
-        <FluentNavMenu Collapsible="true" Width="150">
-            <FluentNavLink Href="/" Icon="@(new Icons.Regular.Size16.Home())">Home</FluentNavLink>
-            <FluentNavGroup Title="Tools" Icon="@(new Icons.Regular.Size16.Toolbox())">
-                <FluentNavLink Href="/tools/amortization-calculator" Icon="@(new Icons.Regular.Size16.BuildingBank())">Amortization Calculator</FluentNavLink>
-            </FluentNavGroup>
-            <AuthorizeView>
-                <FluentNavGroup Title="Profile" Icon="@(new Icons.Regular.Size16.Person())" Href="/profile">
-                    <FluentNavLink Href="/profile/budgets" Icon="@(new Icons.Regular.Size16.Calculator())">Budget</FluentNavLink>
-                </FluentNavGroup>
-            </AuthorizeView>
-        </FluentNavMenu>
-        <div class="budgetr-body">
-            @Body
-            <div class="budgetr-push"></div>
-        </div>
-    </FluentStack>
+<div class="budgetr-toolbar">
+    <div class="budgetr-toolbar-left">
+        <a href="/"><h6>Budgetr</h6></a>
+    </div>
+    <div class="budgetr-toolbar-right">
+        <ProfileMenu />
+    </div>
 </div>
-<footer class="budgetr-footer">
-    <FluentStack Orientation="@Orientation.Vertical" VerticalAlignment="@VerticalAlignment.Center" HorizontalAlignment="@HorizontalAlignment.Center">
-        &copy; @DateTime.Today.Year - Budgetr
-    </FluentStack>
-</footer>
-
-<FluentDialogProvider />
-<FluentToastProvider />
-<FluentTooltipProvider />
+<hr />
+<div class="budgetr-body">
+    @Body
+</div>

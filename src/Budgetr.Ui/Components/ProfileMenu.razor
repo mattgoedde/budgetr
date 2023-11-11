@@ -2,29 +2,11 @@
 
 <AuthorizeView>
     <Authorized>
-        <FluentButton id="profile-menu-button" IconEnd="@(new Icons.Regular.Size16.Person())" OnClick="@(() => open = !open)"/>
-        <FluentMenu Anchor="profile-menu-button" @bind-Open="@open">
-            <FluentMenuItem OnClick="@(() => navigator.NavigateTo("/profile"))">
-                Profile
-            </FluentMenuItem>
-            <FluentMenuItem OnClick="@(() => navigator.NavigateTo("/.auth/logout", true))">
-                Sign out
-            </FluentMenuItem>
-        </FluentMenu>
+        <a href="/profile">Profile</a>
+        <a href="/.auth/logout">Log out</a>
     </Authorized>
     <NotAuthorized>
-        <FluentButton id="profile-menu-button" IconEnd="@(new Icons.Regular.Size16.Person())" OnClick="@(() => open = !open)"/>
-        <FluentMenu Anchor="profile-menu-button" @bind-Open="@open">
-            <FluentMenuItem Class="sign-in-with-microsoft" OnClick="@(() => navigator.NavigateTo("/.auth/login/aad", true))">
-                Sign in with Microsoft
-            </FluentMenuItem>
-            <FluentMenuItem Class="sign-in-with-github" OnClick="@(() => navigator.NavigateTo("/.auth/login/github", true))">
-                Sign in with GitHub
-            </FluentMenuItem>
-            <FluentMenuItem Class="sign-in-with-google" OnClick="@(() => navigator.NavigateTo("/.auth/login/google", true))">
-                Sign in with Google
-            </FluentMenuItem>
-        </FluentMenu>
+        <a href="/login">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
 

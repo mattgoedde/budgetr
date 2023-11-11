@@ -1,22 +1,12 @@
 @page "/login"
 
-<FluentStack Style="height: 100%; width: 100%;" Orientation="@Orientation.Vertical" HorizontalAlignment="@HorizontalAlignment.Center" VerticalAlignment="@VerticalAlignment.Center">
-
-    <AuthorizeView>
-        <Authorized>
-            <div>
-                <FluentAnchor Href="/.auth/logout">Sign out</FluentAnchor>
-            </div>
-        </Authorized>
-        <NotAuthorized>
-            <div>
-                <FluentStack Orientation="@Orientation.Vertical">
-                    <FluentAnchor Href="/.auth/login/aad">Sign in with Microsoft</FluentAnchor>
-                    <FluentAnchor Href="/.auth/login/github">Sign in with GitHub</FluentAnchor>
-                    <FluentAnchor Href="/.auth/login/google">Sign in with Google</FluentAnchor>
-                </FluentStack>
-            </div>
-        </NotAuthorized>
-    </AuthorizeView>
-
-</FluentStack>
+<AuthorizeView>
+    <Authorized>
+        <a Href="/.auth/logout">Log out</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="/.auth/login/aad">Log in with Microsoft</a>
+        <a href="/.auth/login/github">Log in with GitHub</a>
+        <a href="/.auth/login/google">Log in with Google</a>
+    </NotAuthorized>
+</AuthorizeView>
