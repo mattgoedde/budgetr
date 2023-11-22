@@ -19,7 +19,7 @@ builder.Services
 
 builder.Services.AddFluentUIComponents(options =>
 {
-    options.HostingModel = BlazorHostingModel.WebAssembly;
+    // options.HostingModel = BlazorHostingModel.WebAssembly;
 });
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

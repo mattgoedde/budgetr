@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Version>4.0.0</Version>
+    <AssemblyVersion>4.0.0.23318</AssemblyVersion>
+    <FileVersion>4.0.0.23318</FileVersion>
+    <InformationalVersion>4.0.0.23318</InformationalVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.*-* " />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Budgetr.Class\Budgetr.Class.csproj" />
+    <ProjectReference Include="..\Budgetr.DataAccess\Budgetr.DataAccess.csproj" />
+    <ProjectReference Include="..\Budgetr.Logic\Budgetr.Logic.csproj" />
+    <ProjectReference Include="..\Budgetr.Shared\Budgetr.Shared.csproj" />
+  </ItemGroup>
+</Project>
