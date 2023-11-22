@@ -1,0 +1,27 @@
+@page "/budget/housing"
+
+@code {
+    [CascadingParameter]
+    public Budget? budget { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshDataAsync();
+    }
+
+    async Task RefreshDataAsync()
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+}

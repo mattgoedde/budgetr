@@ -1,6 +1,5 @@
 ﻿using Budgetr.Class.Entities;
 using Budgetr.Class.Enums;
-using Budgetr.Logic.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +9,7 @@ public class BudgetrDbContext : DbContext
 {
     private readonly ILogger<BudgetrDbContext>? _logger;
 
-    public BudgetrDbContext(DbContextOptions<BudgetrDbContext> options, ILogger<BudgetrDbContext>? logger)
+    public BudgetrDbContext(DbContextOptions<BudgetrDbContext> options, ILogger<BudgetrDbContext>? logger = null)
         : base(options)
     {
         _logger = logger;

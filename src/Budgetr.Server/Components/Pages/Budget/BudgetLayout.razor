@@ -1,0 +1,226 @@
+@implements IDisposable
+@inherits LayoutComponentBase
+@layout MainLayout
+
+@inject ILogger<BudgetLayout> logger
+@inject NavigationManager nav
+@inject BudgetrDbContext db
+
+<FluentToolbar Style="width: 100%;">
+    <FluentSelect Items="@options" OptionValue="@(o => o?.Value?.Id.ToString())" OptionText="@(o => o?.Value?.Name)" Label="Budget" @bind-SelectedOption="@selectedOption" @bind-SelectedOption:after="@SetSelectedId"/>
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Copy())" OnClick="@CopyButton" />
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@AddButton" />
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@DeleteButton" />
+    <FluentSpacer />
+    @if (Budget is not null)
+    {
+        <FluentTextField @bind-Value="@Budget.Name" @bind-Value:after="@SaveAsync">Name</FluentTextField>
+    }
+</FluentToolbar>
+<FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
+<CascadingValue Value="@Budget">
+    <FluentTabs @bind-ActiveTabId="@activeid" @bind-ActiveTabId:after="Navigate" Size="@TabSize.Large">
+        <FluentTab Id="dashboard">
+            <Header>
+                <FluentIcon Value="@(new Icons.Regular.Size24.DataTrending())" />
+                &nbsp;
+                <FluentLabel Typo="@Typography.H4">Dashboard</FluentLabel>
+            </Header>
+            <Content>
+                <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
+                <Dashboard />
+            </Content>
+        </FluentTab>
+        <FluentTab Id="income">
+            <Header>
+                <FluentIcon Value="@(new Icons.Regular.Size24.Money())" />
+                &nbsp;
+                <FluentLabel Typo="@Typography.H4">Income</FluentLabel>
+            </Header>
+            <Content>
+                <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
+                <Income />
+            </Content>
+        </FluentTab>
+        <FluentTab Id="housing">
+            <Header>
+                <FluentIcon Value="@(new Icons.Regular.Size24.Home())" />
+                &nbsp;
+                <FluentLabel Typo="@Typography.H4">Housing</FluentLabel>
+            </Header>
+            <Content>
+                <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
+                <Housing />
+            </Content>
+        </FluentTab>
+        <FluentTab Id="transportation">
+            <Header>
+                <FluentIcon Value="@(new Icons.Regular.Size24.VehicleCar())" />
+                &nbsp;
+                <FluentLabel Typo="@Typography.H4">Transportation</FluentLabel>
+            </Header>
+            <Content>
+                <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
+                <Transportation />
+            </Content>
+        </FluentTab>
+        <FluentTab Id="loans">
+            <Header>
+                <FluentIcon Value="@(new Icons.Regular.Size24.BuildingBank())" />
+                &nbsp;
+                <FluentLabel Typo="@Typography.H4">Loans</FluentLabel>
+            </Header>
+            <Content>
+                <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
+                <Loans />
+            </Content>
+        </FluentTab>
+        <FluentTab Id="expenses">
+            <Header>
+                <FluentIcon Value="@(new Icons.Regular.Size24.ReceiptMoney())" />
+                &nbsp;
+                <FluentLabel Typo="@Typography.H4">Expenses</FluentLabel>
+            </Header>
+            <Content>
+                <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
+                <Expenses />
+            </Content>
+        </FluentTab>
+    </FluentTabs>
+</CascadingValue>
+
+@code {
+    string activeid = "dashboard";
+
+    public Budget? Budget { get; set; }
+    
+    Option<Budget>? selectedOption;
+
+    IEnumerable<Option<Budget>> options = Enumerable.Empty<Option<Budget>>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        nav.LocationChanged += LocationChangedHandler;
+        SetRoute();
+        await RefreshDataAsync();
+    }
+
+    void LocationChangedHandler(object? sender, LocationChangedEventArgs e)
+    {
+        SetRoute();
+    }
+
+    void SetRoute()
+    {
+        activeid = nav.Uri.Split('/').Last();
+    }
+
+    void Navigate()
+    {
+        nav.NavigateTo($"/budget/{activeid}");
+    }
+
+    public void Dispose()
+    {
+        nav.LocationChanged -= LocationChangedHandler;
+    }
+
+    async Task RefreshDataAsync()
+    {
+        try
+        {
+            var budgets = await db.Budgets.ToArrayAsync();
+
+            if (budgets is null) return;
+
+            options = budgets.Select(b => new Option<Budget> { Value = b, Text = b });
+            
+            if (options.Any())
+                Budget = options.First().Value;
+            else
+                await AddButton();
+        }
+        catch
+        {
+            options = Enumerable.Empty<Option<Budget>>();
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+    async Task AddButton()
+    {
+        try
+        {
+            var newItem = new Budget { Name = DateTime.Today.ToString("yyyy MMMM") };
+
+            await db.Budgets.AddAsync(newItem);
+            await db.SaveChangesAsync();
+        }
+        catch { }
+        finally
+        {
+            await RefreshDataAsync();
+        }
+    }
+    
+    async Task CopyButton()
+    {
+        try
+        {
+            if (Budget is null) return;
+
+            var newItem = Budget with { Id = Guid.NewGuid(), Name = $"{Budget.Name} (Copy)" };
+
+            await db.Budgets.AddAsync(newItem);
+            await db.SaveChangesAsync();
+        }
+        catch { }
+        finally
+        {
+            await RefreshDataAsync();
+        }
+    }
+    
+    async Task DeleteButton()
+    {
+        try
+        {
+            if (Budget is null) return;
+
+            db.Budgets.Remove(Budget);
+
+            await db.SaveChangesAsync();
+        }
+        catch { }
+        finally
+        {
+            await RefreshDataAsync();
+        }
+    }
+
+    async Task SaveAsync()
+    {
+        try
+        {
+            if (Budget is null) return;
+
+            db.Budgets.Update(Budget);
+
+            await db.SaveChangesAsync();
+        }
+        catch { }
+        finally
+        {
+            await RefreshDataAsync();
+        }
+    }
+
+    void SetSelectedId()
+    {
+        Budget = selectedOption?.Value;
+        Navigate();
+    }
+}

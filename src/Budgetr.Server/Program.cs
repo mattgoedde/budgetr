@@ -1,10 +1,18 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 using Budgetr.Server.Components;
+using Microsoft.EntityFrameworkCore;
+using Budgetr.DataAccess;
+using Budgetr.Logic.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
+    .AddDbContext<BudgetrDbContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("Budgetr"));
+    })
+    .AddBudgetrValidators()
     .AddRazorComponents()
     .AddInteractiveServerComponents().Services
     .AddFluentUIComponents();
