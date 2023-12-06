@@ -89,11 +89,11 @@
     </FluentTabs>
 </CascadingValue>
 
-@code {
+    @code {
     string activeid = "dashboard";
 
     public Budget? Budget { get; set; }
-    
+
     Option<Budget>? selectedOption;
 
     IEnumerable<Option<Budget>> options = Enumerable.Empty<Option<Budget>>();
@@ -120,6 +120,12 @@
         nav.NavigateTo($"/budget/{activeid}");
     }
 
+    void SetSelectedId()
+    {
+        Budget = selectedOption?.Value;
+        Navigate();
+    }
+
     public void Dispose()
     {
         nav.LocationChanged -= LocationChangedHandler;
@@ -134,11 +140,15 @@
             if (budgets is null) return;
 
             options = budgets.Select(b => new Option<Budget> { Value = b, Text = b });
-            
+
             if (options.Any())
+            {
                 Budget = options.First().Value;
+            }
             else
+            {
                 await AddButton();
+            }
         }
         catch
         {
@@ -216,11 +226,5 @@
         {
             await RefreshDataAsync();
         }
-    }
-
-    void SetSelectedId()
-    {
-        Budget = selectedOption?.Value;
-        Navigate();
     }
 }
