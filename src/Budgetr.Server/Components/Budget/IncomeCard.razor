@@ -19,7 +19,7 @@
                 <FluentToolbar>
                     <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="DeductionAddButton" />
                 </FluentToolbar>
-                <FluentDataGrid Items="@Value.Deductions?.AsQueryable()">
+                <FluentDataGrid Items="@Value.Deductions?.AsQueryable()" Style="width: 100%;">
                     <TemplateColumn Title="Name">
                         <FluentTextField @bind-Value="@context!.Name" @bind-Value:after="FieldChanged" />
                     </TemplateColumn>
@@ -32,6 +32,9 @@
                         <EnumSelect @bind-Value="@context!.DeductionType" @bind-Value:after="FieldChanged" />
                     </TemplateColumn>
                     <PropertyColumn Title="Frequency" Property="@(d => d.Frequency)" />
+                    <TemplateColumn>
+                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" />
+                    </TemplateColumn>
                 </FluentDataGrid>
             </FluentStack>
         </FluentStack>
