@@ -33,7 +33,7 @@
                     </TemplateColumn>
                     <PropertyColumn Title="Frequency" Property="@(d => d.Frequency)" />
                     <TemplateColumn>
-                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" />
+                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => DeductionDeleteButton(context))"/>
                     </TemplateColumn>
                 </FluentDataGrid>
             </FluentStack>
@@ -95,6 +95,13 @@
             Income = Value,
             IncomeId = Value.Id
         });
+
+        await FieldChanged();
+    }
+
+    async Task DeductionDeleteButton(Deduction item)
+    {
+        Value?.Deductions?.Remove(item);
 
         await FieldChanged();
     }
