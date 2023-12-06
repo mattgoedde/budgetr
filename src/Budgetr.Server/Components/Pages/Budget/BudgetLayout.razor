@@ -28,7 +28,7 @@
             </Header>
             <Content>
                 <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
-                <Dashboard />
+                <DashboardPage />
             </Content>
         </FluentTab>
         <FluentTab Id="income">
@@ -39,7 +39,7 @@
             </Header>
             <Content>
                 <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
-                <Income />
+                <IncomePage />
             </Content>
         </FluentTab>
         <FluentTab Id="housing">
@@ -50,7 +50,7 @@
             </Header>
             <Content>
                 <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
-                <Housing />
+                <HousingPage />
             </Content>
         </FluentTab>
         <FluentTab Id="transportation">
@@ -61,7 +61,7 @@
             </Header>
             <Content>
                 <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
-                <Transportation />
+                <TransportationPage />
             </Content>
         </FluentTab>
         <FluentTab Id="loans">
@@ -72,7 +72,7 @@
             </Header>
             <Content>
                 <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
-                <Loans />
+                <LoansPage />
             </Content>
         </FluentTab>
         <FluentTab Id="expenses">
@@ -83,7 +83,7 @@
             </Header>
             <Content>
                 <FluentDivider Style="margin-bottom: 1rem; margin-top: 1rem;"/>
-                <Expenses />
+                <ExpensesPage />
             </Content>
         </FluentTab>
     </FluentTabs>
@@ -135,7 +135,12 @@
     {
         try
         {
-            var budgets = await db.Budgets.ToArrayAsync();
+            var budgets = await db.Budgets
+                .Include(b => b.Incomes!)
+                    .ThenInclude(i => i.Deductions)
+                .Include(b => b.AmortizedLoans)
+                .Include(b => b.Expenses)
+                .ToArrayAsync();
 
             if (budgets is null) return;
 

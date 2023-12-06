@@ -1,0 +1,43 @@
+﻿@if (Value is not null)
+{
+    <FluentCard AreaRestricted="false">
+        <FluentStack Orientation="@Orientation.Vertical">
+            <div>
+                <FluentTextField Label="Name" @bind-Value="@Value.Name" @bind-Value:after="FieldChanged" />
+            </div>
+            <div>
+                <FluentNumberField Label="Amount" Step="0.01" HideStep="true" @bind-Value="@Value.Amount" @bind-Value:after="FieldChanged">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start"/>
+                </FluentNumberField>
+            </div>
+            <div>
+                <EnumSelect TEnum="Frequency" Label="Frequency" @bind-Value="@Value.Frequency" @bind-Value:after="FieldChanged" />
+            </div>
+        </FluentStack>
+    </FluentCard>
+}
+
+@code {
+    [Parameter]
+    public Income? Value 
+    {
+        get => _value;
+        set
+        {
+            if (_value != value)
+            {
+                _value = value;
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+    private Income? _value;
+
+    [Parameter]
+    public EventCallback<Income> ValueChanged { get; set; }
+
+    async Task FieldChanged()
+    {
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

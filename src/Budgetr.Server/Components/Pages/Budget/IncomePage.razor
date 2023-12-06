@@ -1,0 +1,68 @@
+@page "/budget/income"
+
+@inject BudgetrDbContext db
+
+<FluentToolbar Style="width: 100%;">
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddButton"/>
+</FluentToolbar>
+<div style="height: 100%; width: 100%;">
+    @if (Budget?.Incomes?.Any() ?? false)
+    {
+        @foreach (var income in Budget.Incomes)
+        {
+            var i = income;
+            <IncomeCard @bind-Value="i" @bind-Value:after="SaveAsync" />
+        }
+    }
+</div>
+
+@code {
+    [CascadingParameter]
+    public Budget? Budget { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    async Task AddButton()
+    {
+        try
+        {
+            if (Budget is null) return;
+
+            await db.Incomes.AddAsync(new Income
+            {
+                Name = "New Income",
+                Amount = 0,
+                Frequency = Frequency.Yearly,
+                Budget = Budget,
+                BudgetId = Budget.Id
+            });
+        }
+        catch (Exception ex)
+        {
+            
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task SaveAsync()
+    {
+        try
+        {
+            await db.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+}
