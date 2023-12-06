@@ -5,16 +5,16 @@
 <FluentToolbar Style="width: 100%;">
     <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddButton"/>
 </FluentToolbar>
-<div style="height: 100%; width: 100%;">
-    @if (Budget?.Incomes?.Any() ?? false)
-    {
+@if (Budget?.Incomes?.Any() ?? false)
+{
+    <FluentStack Orientation="@Orientation.Vertical">
         @foreach (var income in Budget.Incomes)
         {
             var i = income;
             <IncomeCard @bind-Value="i" @bind-Value:after="SaveAsync" />
         }
-    }
-</div>
+    </FluentStack>
+}
 
 @code {
     [CascadingParameter]
