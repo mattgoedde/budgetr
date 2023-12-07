@@ -82,7 +82,9 @@
 
     async Task DeductionAddButton()
     {
-        if (Value?.Deductions is null) return;
+        if (Value is null) return;
+
+        Value.Deductions ??= new List<Deduction>();
 
         Value.Deductions.Add(new Deduction
         {
