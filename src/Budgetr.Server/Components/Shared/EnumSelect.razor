@@ -1,0 +1,43 @@
+﻿@typeparam TEnum where TEnum : struct, Enum
+
+<FluentSelect TOption="TEnum" Items="Enum.GetValues<TEnum>()" @bind-Value="@_selectedValue" @bind-Value:after="@SelectedValueChanged" Label="@Label" />
+
+@code {
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public TEnum Value
+    {
+        get => _value;
+        set
+        {
+            if (_value.CompareTo(value) != 0)
+            {
+                _value = value;
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+
+    [Parameter]
+    public EventCallback<TEnum> ValueChanged { get; set; }
+
+    private TEnum _value;
+    private string? _selectedValue;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        _selectedValue = Value.ToString();
+    }
+
+    void SelectedValueChanged()
+    {
+        if (Enum.TryParse<TEnum>(_selectedValue, out TEnum val))
+        {
+            Value = val;
+        }
+    }
+}

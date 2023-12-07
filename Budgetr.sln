@@ -5,39 +5,26 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AF1AAE0B-ED6F-4DFC-B8C6-E37637C73FF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Api", "src\Budgetr.Api\Budgetr.Api.csproj", "{A23DCCC4-627C-43AC-8262-AB6F1D39F76C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Class", "src\Budgetr.Class\Budgetr.Class.csproj", "{5223F348-440B-40F6-A08F-CE45C084EC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Ui", "src\Budgetr.Ui\Budgetr.Ui.csproj", "{661DC19E-D861-4075-A6F0-6040AAF58A5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.DataAccess", "src\Budgetr.DataAccess\Budgetr.DataAccess.csproj", "{C9828BBD-E688-47C8-BAC9-1100FA942B30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Class", "src\Budgetr.Class\Budgetr.Class.csproj", "{5223F348-440B-40F6-A08F-CE45C084EC92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Logic", "src\Budgetr.Logic\Budgetr.Logic.csproj", "{5C08ED0F-1BDD-4FF4-8B20-076F1662A06B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.DataAccess", "src\Budgetr.DataAccess\Budgetr.DataAccess.csproj", "{C9828BBD-E688-47C8-BAC9-1100FA942B30}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Logic", "src\Budgetr.Logic\Budgetr.Logic.csproj", "{5C08ED0F-1BDD-4FF4-8B20-076F1662A06B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Shared", "src\Budgetr.Shared\Budgetr.Shared.csproj", "{3C8EBD78-5601-414F-B32B-99848A6EBBF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Shared", "src\Budgetr.Shared\Budgetr.Shared.csproj", "{3C8EBD78-5601-414F-B32B-99848A6EBBF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{93BBBBD0-2AB3-4D72-B05D-7685E49F11AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgetr.Tests", "test\Budgetr.Tests\Budgetr.Tests.csproj", "{BE1FDD06-0132-4671-A0A0-CC885F62AA76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Tests", "test\Budgetr.Tests\Budgetr.Tests.csproj", "{BE1FDD06-0132-4671-A0A0-CC885F62AA76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgetr.Server", "src\Budgetr.Server\Budgetr.Server.csproj", "{16A9815A-2FF2-4A15-944A-942F83640916}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A23DCCC4-627C-43AC-8262-AB6F1D39F76C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A23DCCC4-627C-43AC-8262-AB6F1D39F76C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A23DCCC4-627C-43AC-8262-AB6F1D39F76C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A23DCCC4-627C-43AC-8262-AB6F1D39F76C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{661DC19E-D861-4075-A6F0-6040AAF58A5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{661DC19E-D861-4075-A6F0-6040AAF58A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{661DC19E-D861-4075-A6F0-6040AAF58A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{661DC19E-D861-4075-A6F0-6040AAF58A5B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5223F348-440B-40F6-A08F-CE45C084EC92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5223F348-440B-40F6-A08F-CE45C084EC92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5223F348-440B-40F6-A08F-CE45C084EC92}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,14 +45,23 @@ Global
 		{BE1FDD06-0132-4671-A0A0-CC885F62AA76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE1FDD06-0132-4671-A0A0-CC885F62AA76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE1FDD06-0132-4671-A0A0-CC885F62AA76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16A9815A-2FF2-4A15-944A-942F83640916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16A9815A-2FF2-4A15-944A-942F83640916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16A9815A-2FF2-4A15-944A-942F83640916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16A9815A-2FF2-4A15-944A-942F83640916}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A23DCCC4-627C-43AC-8262-AB6F1D39F76C} = {AF1AAE0B-ED6F-4DFC-B8C6-E37637C73FF2}
-		{661DC19E-D861-4075-A6F0-6040AAF58A5B} = {AF1AAE0B-ED6F-4DFC-B8C6-E37637C73FF2}
 		{5223F348-440B-40F6-A08F-CE45C084EC92} = {AF1AAE0B-ED6F-4DFC-B8C6-E37637C73FF2}
 		{C9828BBD-E688-47C8-BAC9-1100FA942B30} = {AF1AAE0B-ED6F-4DFC-B8C6-E37637C73FF2}
 		{5C08ED0F-1BDD-4FF4-8B20-076F1662A06B} = {AF1AAE0B-ED6F-4DFC-B8C6-E37637C73FF2}
 		{3C8EBD78-5601-414F-B32B-99848A6EBBF5} = {AF1AAE0B-ED6F-4DFC-B8C6-E37637C73FF2}
 		{BE1FDD06-0132-4671-A0A0-CC885F62AA76} = {93BBBBD0-2AB3-4D72-B05D-7685E49F11AE}
+		{16A9815A-2FF2-4A15-944A-942F83640916} = {AF1AAE0B-ED6F-4DFC-B8C6-E37637C73FF2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FE36B0D-D93D-411D-975F-789374157186}
 	EndGlobalSection
 EndGlobal

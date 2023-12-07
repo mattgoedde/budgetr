@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Budgetr.Class.Enums;
+﻿using Budgetr.Class.Enums;
 
 namespace Budgetr.Class.Entities;
 

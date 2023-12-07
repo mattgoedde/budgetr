@@ -1,0 +1,110 @@
+﻿@if (Value is not null)
+{
+    <FluentCard AreaRestricted="false">
+        <FluentStack Orientation="@Orientation.Horizontal">
+            <FluentStack Orientation="@Orientation.Vertical">
+                <div>
+                    <FluentTextField Label="Name" @bind-Value="@Value.Name" @bind-Value:after="FieldChanged" />
+                </div>
+                <div>
+                    <FluentNumberField Label="Amount" Step="0.01" HideStep="true" @bind-Value="@Value.Amount" @bind-Value:after="FieldChanged">
+                        <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start"/>
+                    </FluentNumberField>
+                </div>
+                <div>
+                    <EnumSelect Label="Frequency" @bind-Value="@Value.Frequency" @bind-Value:after="FrequencyChanged" />
+                </div>
+            </FluentStack>
+            <FluentStack Orientation="@Orientation.Vertical">
+                <FluentToolbar>
+                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="DeductionAddButton" />
+                </FluentToolbar>
+                <FluentDataGrid Items="@Value.Deductions?.AsQueryable()" Style="width: 100%;">
+                    <TemplateColumn Title="Name">
+                        <FluentTextField @bind-Value="@context!.Name" @bind-Value:after="FieldChanged" />
+                    </TemplateColumn>
+                    <TemplateColumn Title="Amount">
+                        <FluentNumberField Step="0.01" HideStep="true" @bind-Value="@context!.Amount" @bind-Value:after="FieldChanged">
+                            <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start" />
+                        </FluentNumberField>
+                    </TemplateColumn>
+                    <TemplateColumn Title="Type">
+                        <EnumSelect @bind-Value="@context!.DeductionType" @bind-Value:after="FieldChanged" />
+                    </TemplateColumn>
+                    <PropertyColumn Title="Frequency" Property="@(d => d.Frequency)" />
+                    <TemplateColumn>
+                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => DeductionDeleteButton(context))"/>
+                    </TemplateColumn>
+                </FluentDataGrid>
+            </FluentStack>
+        </FluentStack>
+    </FluentCard>
+}
+
+@code {
+    [Parameter]
+    public Income? Value 
+    {
+        get => _value;
+        set
+        {
+            if (_value != value)
+            {
+                _value = value;
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+    private Income? _value;
+
+    [Parameter]
+    public EventCallback<Income> ValueChanged { get; set; }
+
+    async Task FrequencyChanged()
+    {
+        // update the deductions to have the same frequency as their income
+        if (Value?.Deductions?.Any() ?? false)
+        {
+            foreach (var deduction in Value.Deductions)
+            {
+                deduction.Amount = deduction.Amount * (double)deduction.Frequency / (double)Value.Frequency;
+                deduction.Frequency = Value.Frequency;
+            }
+        }
+
+        await FieldChanged();
+    }
+
+    async Task FieldChanged()
+    {
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    async Task DeductionAddButton()
+    {
+        if (Value is null) return;
+
+        Value.Deductions ??= new List<Deduction>();
+
+        Value.Deductions.Add(new Deduction
+        {
+            Name = "New Deduction",
+            DeductionType = DeductionType.Tax,
+            Amount = 0,
+            Frequency = Value.Frequency,
+            Budget = Value.Budget,
+            BudgetId = Value.Budget.Id,
+            Income = Value,
+            IncomeId = Value.Id
+        });
+
+        await FieldChanged();
+    }
+
+    async Task DeductionDeleteButton(Deduction item)
+    {
+        Value?.Deductions?.Remove(item);
+
+        await FieldChanged();
+    }
+}

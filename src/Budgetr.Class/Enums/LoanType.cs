@@ -1,5 +1,8 @@
+using System.Text.Json.Serialization;
+
 namespace Budgetr.Class.Enums;
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum LoanType
 {
     Unknown = 0,

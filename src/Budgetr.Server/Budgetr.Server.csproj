@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Version>4.0.0</Version>
+    <AssemblyVersion>4.0.0.23318</AssemblyVersion>
+    <FileVersion>4.0.0.23318</FileVersion>
+    <InformationalVersion>4.0.0.23318</InformationalVersion>
+    <UserSecretsId>87a1ecb2-fa9c-46b6-9849-056beae94da6</UserSecretsId>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.*-* " />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Budgetr.Class\Budgetr.Class.csproj" />
+    <ProjectReference Include="..\Budgetr.DataAccess\Budgetr.DataAccess.csproj" />
+    <ProjectReference Include="..\Budgetr.Logic\Budgetr.Logic.csproj" />
+  </ItemGroup>
+</Project>
