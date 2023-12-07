@@ -1,0 +1,26 @@
+﻿@implements IDialogContentComponent<Deduction>
+
+@if (Content is not null)
+{
+    <FluentStack Orientation="@Orientation.Vertical">
+        <div>
+            <FluentTextField @bind-Value="@Content.Name" />
+        </div>
+        <div>
+            <FluentNumberField Label="Amount" Step="0.01" HideStep="true" @bind-Value="@Content.Amount" >
+                <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start" />
+            </FluentNumberField>
+        </div>
+        <div>
+            <EnumSelect @bind-Value="@Content.DeductionType" Label="Type" />
+        </div>
+        <div>
+            <FluentTextField ReadOnly Value="@Content.Frequency.ToString()" Label="Frequency" />
+        </div>
+    </FluentStack>
+}
+
+@code {
+    [Parameter]
+    public Deduction? Content { get; set; }
+}

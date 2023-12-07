@@ -1,4 +1,6 @@
-﻿@if (Value is not null)
+﻿@inject IDialogService dialogService
+
+@if (Value is not null)
 {
     <FluentCard AreaRestricted="false">
         <FluentStack Orientation="@Orientation.Horizontal">
@@ -20,20 +22,12 @@
                     <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="DeductionAddButton" />
                 </FluentToolbar>
                 <FluentDataGrid Items="@Value.Deductions?.AsQueryable()" Style="width: 100%;">
-                    <TemplateColumn Title="Name">
-                        <FluentTextField @bind-Value="@context!.Name" @bind-Value:after="FieldChanged" />
-                    </TemplateColumn>
-                    <TemplateColumn Title="Amount">
-                        <FluentNumberField Step="0.01" HideStep="true" @bind-Value="@context!.Amount" @bind-Value:after="FieldChanged">
-                            <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start" />
-                        </FluentNumberField>
-                    </TemplateColumn>
-                    <TemplateColumn Title="Type">
-                        <EnumSelect @bind-Value="@context!.DeductionType" @bind-Value:after="FieldChanged" />
-                    </TemplateColumn>
-                    <PropertyColumn Title="Frequency" Property="@(d => d.Frequency)" />
+                    <PropertyColumn Title="Name" Property="@(d => d.Name)" />
+                    <PropertyColumn Title="Amount" Property="@(d => d.Amount)" Format="c" />
+                    <PropertyColumn Title="Type" Property="@(d => d.DeductionType)" />
                     <TemplateColumn>
-                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => DeductionDeleteButton(context))"/>
+                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => DeductionEditButton(context))"/>
+                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => DeductionDeleteButton(context))" />
                     </TemplateColumn>
                 </FluentDataGrid>
             </FluentStack>
@@ -67,7 +61,6 @@
         {
             foreach (var deduction in Value.Deductions)
             {
-                deduction.Amount = deduction.Amount * (double)deduction.Frequency / (double)Value.Frequency;
                 deduction.Frequency = Value.Frequency;
             }
         }
@@ -80,31 +73,94 @@
         await ValueChanged.InvokeAsync(Value);
     }
 
+    async Task DeductionEditButton(Deduction item)
+    {
+        try
+        {
+            if (Value is null) return;
+
+            var dialog = await dialogService.ShowPanelAsync<DeductionDialog>(item, new DialogParameters
+            {
+                Title = "Edit Deduction"
+            });
+
+            var dialogResult = await dialog.Result;
+
+            if (dialogResult.Cancelled) return;
+
+            if (dialogResult.Data is Deduction editedItem)
+            {
+                item = editedItem;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await FieldChanged();
+        }
+    }
+
     async Task DeductionAddButton()
     {
-        if (Value is null) return;
-
-        Value.Deductions ??= new List<Deduction>();
-
-        Value.Deductions.Add(new Deduction
+        try
         {
-            Name = "New Deduction",
-            DeductionType = DeductionType.Tax,
-            Amount = 0,
-            Frequency = Value.Frequency,
-            Budget = Value.Budget,
-            BudgetId = Value.Budget.Id,
-            Income = Value,
-            IncomeId = Value.Id
-        });
+            if (Value is null) return;
 
-        await FieldChanged();
+            var item = new Deduction
+            {
+                Name = "New Deduction",
+                DeductionType = DeductionType.Tax,
+                Amount = 0,
+                Frequency = Value.Frequency,
+                Budget = Value.Budget,
+                BudgetId = Value.Budget.Id,
+                Income = Value,
+                IncomeId = Value.Id
+            };
+
+            if (Value is null) return;
+
+            var dialog = await dialogService.ShowPanelAsync<DeductionDialog>(item, new DialogParameters
+            {
+                Title = "Add Deduction"
+            });
+
+            var dialogResult = await dialog.Result;
+
+            if (dialogResult.Cancelled) return;
+
+            if (dialogResult.Data is Deduction addedItem)
+            {
+                Value.Deductions ??= new List<Deduction>();
+                Value.Deductions.Add(addedItem);
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await FieldChanged();
+        }
     }
 
     async Task DeductionDeleteButton(Deduction item)
     {
-        Value?.Deductions?.Remove(item);
+        try
+        {
+            Value?.Deductions?.Remove(item);
+        }
+        catch (Exception ex)
+        {
 
-        await FieldChanged();
+        }
+        finally
+        {
+            await FieldChanged();
+        }
     }
 }
