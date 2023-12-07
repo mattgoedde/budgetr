@@ -3,6 +3,12 @@
 @if (Value is not null)
 {
     <FluentCard AreaRestricted="false">
+        <FluentToolbar Style="width: 100%;">
+            <FluentSpacer />
+            <FluentButton OnClick="DeleteButton">
+                <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+            </FluentButton>
+        </FluentToolbar>
         <FluentStack Orientation="@Orientation.Horizontal">
             <FluentStack Orientation="@Orientation.Vertical">
                 <div>
@@ -54,6 +60,9 @@
     [Parameter]
     public EventCallback<Income> ValueChanged { get; set; }
 
+    [Parameter]
+    public EventCallback<Income> ValueDeleted { get; set; }
+
     async Task FrequencyChanged()
     {
         // update the deductions to have the same frequency as their income
@@ -71,6 +80,11 @@
     async Task FieldChanged()
     {
         await ValueChanged.InvokeAsync(Value);
+    }
+
+    async Task DeleteButton()
+    {
+        await ValueDeleted.InvokeAsync(Value);
     }
 
     async Task DeductionEditButton(Deduction item)
