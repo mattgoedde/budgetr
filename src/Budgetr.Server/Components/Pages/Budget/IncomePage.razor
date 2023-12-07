@@ -11,7 +11,7 @@
         @foreach (var income in Budget.Incomes)
         {
             var i = income;
-            <IncomeCard @bind-Value="i" @bind-Value:after="SaveAsync" />
+            <IncomeCard @bind-Value="i" @bind-Value:after="SaveAsync" ValueDeleted="DeleteIncomeAsync" />
         }
     </FluentStack>
 }
@@ -37,7 +37,23 @@
         }
         catch (Exception ex)
         {
-            
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task DeleteIncomeAsync(Income item)
+    {
+        try
+        {
+            db.Incomes.Remove(item);
+        }
+        catch (Exception ex)
+        {
+
         }
         finally
         {
