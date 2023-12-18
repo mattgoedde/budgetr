@@ -1,0 +1,60 @@
+﻿@if (Value is not null)
+{
+    <FluentCard AreaRestricted="false">
+        <FluentToolbar Style="width: 100%;">
+            <FluentSpacer />
+            <FluentButton OnClick="DeleteButton">
+                <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+            </FluentButton>
+        </FluentToolbar>
+        <FluentStack Orientation="@Orientation.Vertical">
+            <div>
+                <FluentTextField Label="Name" @bind-Value="@Value.Name" @bind-Value:after="FieldChanged" />
+            </div>
+            <div>
+                <FluentNumberField Label="Amount" Step="0.01" HideStep="true" @bind-Value="@Value.Amount" @bind-Value:after="FieldChanged">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start" />
+                </FluentNumberField>
+            </div>
+            <div>
+                <EnumSelect Label="Frequency" @bind-Value="@Value.Frequency" @bind-Value:after="FieldChanged" />
+            </div>
+            <div>
+                <EnumSelect Label="Frequency" @bind-Value="@Value.ExpenseType" @bind-Value:after="FieldChanged" />
+            </div>
+        </FluentStack>
+    </FluentCard>
+}
+
+@code {
+    [Parameter]
+    public Expense? Value
+    {
+        get => _value;
+        set
+        {
+            if (_value != value)
+            {
+                _value = value;
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+    private Expense? _value;
+
+    [Parameter]
+    public EventCallback<Expense> ValueChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<Expense> ValueDeleted { get; set; }
+
+    async Task FieldChanged()
+    {
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    async Task DeleteButton()
+    {
+        await ValueDeleted.InvokeAsync(Value);
+    }
+}
