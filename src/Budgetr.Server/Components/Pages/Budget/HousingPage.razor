@@ -2,20 +2,33 @@
 
 @inject BudgetrDbContext db
 
-<FluentToolbar Style="width: 100%;">
-    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddLoanButton" />
-</FluentToolbar>
 <FluentStack Orientation="@Orientation.Vertical">
-@foreach (var loan in Budget?.AmortizedLoans?.Where(l => l.LoanType == LoanType.Mortgage)?.ToList() ?? Enumerable.Empty<AmortizedLoan>())
-{
-    var l = loan;
-        
-}
+    <div>
+        <FluentToolbar Style="width: 100%;">
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddLoanButton" />
+        </FluentToolbar>
+        <FluentStack Orientation="@Orientation.Vertical">
+            @foreach (var loan in Budget?.AmortizedLoans?.Where(l => l.LoanType == LoanType.Mortgage)?.ToList() ?? Enumerable.Empty<AmortizedLoan>())
+            {
+                var l = loan;
+                
+            }
+        </FluentStack>
+    </div>
+    <FluentDivider />
+    <div>
+        <FluentToolbar Style="width: 100%">
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" />
+        </FluentToolbar>
+        <FluentStack Orientation="@Orientation.Vertical">
+            @foreach (var expense in Budget?.Expenses?.Where(e => e.ExpenseType == ExpenseType.Housing)?.ToList() ?? Enumerable.Empty<Expense>())
+            {
+                var e = expense;
+
+            }
+        </FluentStack>
+    </div>
 </FluentStack>
-<FluentDivider />
-<FluentToolbar Style="width: 100%">
-    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" />
-</FluentToolbar>
 
 @code {
     [CascadingParameter]
