@@ -6,7 +6,7 @@ namespace Budgetr.Class.Enums;
 public enum LoanType
 {
     Unknown = 0,
-    Mortage = 1,
+    Mortgage = 1,
     Car = 2,
     Personal = 3,
     CreditCard = 4,

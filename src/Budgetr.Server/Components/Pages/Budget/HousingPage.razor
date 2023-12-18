@@ -3,24 +3,38 @@
 @inject BudgetrDbContext db
 
 <FluentToolbar Style="width: 100%;">
-    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddButton" />
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddLoanButton" />
+</FluentToolbar>
+<FluentStack Orientation="@Orientation.Vertical">
+@foreach (var loan in Budget?.AmortizedLoans?.Where(l => l.LoanType == LoanType.Mortgage)?.ToList() ?? Enumerable.Empty<AmortizedLoan>())
+{
+    var l = loan;
+        
+}
+</FluentStack>
+<FluentDivider />
+<FluentToolbar Style="width: 100%">
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" />
 </FluentToolbar>
 
 @code {
     [CascadingParameter]
     public Budget? Budget { get; set; }
 
-    async Task AddButton()
+    async Task AddLoanButton()
     {
         try
         {
             if (Budget is null) return;
 
-            await db.Incomes.AddAsync(new Income
+            await db.AmortizedLoans.AddAsync(new AmortizedLoan
                 {
-                    Name = "New Income",
-                    Amount = 0,
-                    Frequency = Frequency.Yearly,
+                    Name = "New Mortgage",
+                    AnnualInterestRate = 0.05,
+                    Balance = 0,
+                    Principal = 0,
+                    LoanType = LoanType.Mortgage,
+                    LoanTermMonths = 12,                    
                     Budget = Budget,
                     BudgetId = Budget.Id
                 });
@@ -35,11 +49,11 @@
         }
     }
 
-    async Task DeleteIncomeAsync(Income item)
+    async Task DeleteLoanAsync(AmortizedLoan item)
     {
         try
         {
-            db.Incomes.Remove(item);
+            db.AmortizedLoans.Remove(item);
         }
         catch (Exception ex)
         {
