@@ -1,0 +1,68 @@
+﻿@if (Value is not null)
+{
+    <FluentCard AreaRestricted="false">
+        <FluentToolbar Style="width: 100%;">
+            <FluentSpacer />
+            <FluentButton OnClick="DeleteButton">
+                <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+            </FluentButton>
+        </FluentToolbar>
+        <FluentStack Orientation="@Orientation.Vertical">
+            <div>
+                <FluentTextField Label="Name" @bind-Value="@Value.Name" @bind-Value:after="FieldChanged" />
+            </div>
+            <div>
+                <FluentNumberField Label="Principal" Step="0.01" HideStep="true" @bind-Value="@Value.Principal" @bind-Value:after="FieldChanged">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start" />
+                </FluentNumberField>
+            </div>
+            <div>
+                <FluentNumberField Label="Balance" Step="0.01" HideStep="true" @bind-Value="@Value.Balance" @bind-Value:after="FieldChanged">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start" />
+                </FluentNumberField>
+            </div>
+            <div>
+                <FluentStack Orientation="@Orientation.Vertical">
+                    <FluentNumberField Label="Annual Interest Rate" Step="0.00001" HideStep="true" @bind-Value="@Value.AnnualInterestRate" @bind-Value:after="FieldChanged" />
+                    <small>@Value.AnnualInterestRate.ToString("P3")</small>
+                </FluentStack>
+            </div>
+            <div>
+                <EnumSelect Label="Type" @bind-Value="@Value.LoanType" @bind-Value:after="FieldChanged" />
+            </div>
+        </FluentStack>
+    </FluentCard>
+}
+
+@code {
+    [Parameter]
+    public AmortizedLoan? Value
+    {
+        get => _value;
+        set
+        {
+            if (_value != value)
+            {
+                _value = value;
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+    private AmortizedLoan? _value;
+
+    [Parameter]
+    public EventCallback<AmortizedLoan> ValueChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<AmortizedLoan> ValueDeleted { get; set; }
+
+    async Task FieldChanged()
+    {
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    async Task DeleteButton()
+    {
+        await ValueDeleted.InvokeAsync(Value);
+    }
+}
