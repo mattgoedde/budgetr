@@ -3,28 +3,32 @@
 @inject BudgetrDbContext db
 
 <FluentStack Orientation="@Orientation.Vertical">
-    <div>
+    <div style="width: 100%">
         <FluentToolbar Style="width: 100%;">
+            <FluentLabel>Mortgages</FluentLabel>
+            <FluentSpacer />
             <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddLoanButton" />
         </FluentToolbar>
         <FluentStack Orientation="@Orientation.Vertical">
             @foreach (var loan in Budget?.AmortizedLoans?.Where(l => l.LoanType == LoanType.Mortgage)?.ToList() ?? Enumerable.Empty<AmortizedLoan>())
             {
                 var l = loan;
-                
+                <LoanCard @bind-Value="@l" @bind-Value:after="SaveAsync" ValueDeleted="DeleteLoanAsync" />
             }
         </FluentStack>
     </div>
     <FluentDivider />
-    <div>
+    <div style="width: 100%">
         <FluentToolbar Style="width: 100%">
-            <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" />
+            <FluentLabel>Housing Expenses</FluentLabel>
+            <FluentSpacer />
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddExpenseButton"/>
         </FluentToolbar>
         <FluentStack Orientation="@Orientation.Vertical">
             @foreach (var expense in Budget?.Expenses?.Where(e => e.ExpenseType == ExpenseType.Housing)?.ToList() ?? Enumerable.Empty<Expense>())
             {
                 var e = expense;
-
+                <ExpenseCard @bind-Value="@e" @bind-Value:after="SaveAsync" ValueDeleted="DeleteExpenseAsync" />
             }
         </FluentStack>
     </div>
@@ -67,6 +71,48 @@
         try
         {
             db.AmortizedLoans.Remove(item);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task AddExpenseButton()
+    {
+        try
+        {
+            if (Budget is null) return;
+
+            await db.Expenses.AddAsync(new Expense
+                {
+                    Name = "New Expense",
+                    Amount = 0,
+                    Frequency = Frequency.Monthly,
+                    ExpenseType = ExpenseType.Housing,
+                    Budget = Budget,
+                    BudgetId = Budget.Id
+                });
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task DeleteExpenseAsync(Expense item)
+    {
+        try
+        {
+            db.Expenses.Remove(item);
         }
         catch (Exception ex)
         {

@@ -7,8 +7,9 @@ public enum Frequency
 {
     Unknown = 0,
     Yearly = 1,
-    BiYearly = 2,
+    SemiAnnually = 2,
     Quarterly = 4,
+    BiMonthly = 6,
     Monthly = 12,
     BiWeekly = 26,
     Weekly = 52,
