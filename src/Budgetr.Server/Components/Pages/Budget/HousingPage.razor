@@ -1,19 +1,61 @@
 @page "/budget/housing"
 
+@inject BudgetrDbContext db
+
+<FluentToolbar Style="width: 100%;">
+    <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddButton" />
+</FluentToolbar>
+
 @code {
     [CascadingParameter]
-    public Budget? budget { get; set; }
+    public Budget? Budget { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await RefreshDataAsync();
-    }
-
-    async Task RefreshDataAsync()
+    async Task AddButton()
     {
         try
         {
+            if (Budget is null) return;
 
+            await db.Incomes.AddAsync(new Income
+                {
+                    Name = "New Income",
+                    Amount = 0,
+                    Frequency = Frequency.Yearly,
+                    Budget = Budget,
+                    BudgetId = Budget.Id
+                });
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task DeleteIncomeAsync(Income item)
+    {
+        try
+        {
+            db.Incomes.Remove(item);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task SaveAsync()
+    {
+        try
+        {
+            await db.SaveChangesAsync();
         }
         catch (Exception ex)
         {
