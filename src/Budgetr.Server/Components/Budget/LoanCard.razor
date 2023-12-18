@@ -12,15 +12,23 @@
                 <FluentTextField Label="Name" @bind-Value="@Value.Name" @bind-Value:after="FieldChanged" />
             </div>
             <div>
-                <FluentNumberField Label="Amount" Step="0.01" HideStep="true" @bind-Value="@Value.Amount" @bind-Value:after="FieldChanged">
+                <FluentNumberField Label="Principal" Step="0.01" HideStep="true" @bind-Value="@Value.Principal" @bind-Value:after="FieldChanged">
                     <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start" />
                 </FluentNumberField>
             </div>
             <div>
-                <EnumSelect Label="Frequency" @bind-Value="@Value.Frequency" @bind-Value:after="FieldChanged" />
+                <FluentNumberField Label="Balance" Step="0.01" HideStep="true" @bind-Value="@Value.Balance" @bind-Value:after="FieldChanged">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.CurrencyDollarEuro())" Slot="start" />
+                </FluentNumberField>
             </div>
             <div>
-                <EnumSelect Label="Type" @bind-Value="@Value.ExpenseType" @bind-Value:after="FieldChanged" />
+                <FluentStack Orientation="@Orientation.Vertical">
+                    <FluentNumberField Label="Annual Interest Rate" Step="0.00001" HideStep="true" @bind-Value="@Value.AnnualInterestRate" @bind-Value:after="FieldChanged" />
+                    <small>@Value.AnnualInterestRate.ToString("P3")</small>
+                </FluentStack>
+            </div>
+            <div>
+                <EnumSelect Label="Type" @bind-Value="@Value.LoanType" @bind-Value:after="FieldChanged" />
             </div>
         </FluentStack>
     </FluentCard>
@@ -28,7 +36,7 @@
 
 @code {
     [Parameter]
-    public Expense? Value
+    public AmortizedLoan? Value
     {
         get => _value;
         set
@@ -40,13 +48,13 @@
             }
         }
     }
-    private Expense? _value;
+    private AmortizedLoan? _value;
 
     [Parameter]
-    public EventCallback<Expense> ValueChanged { get; set; }
+    public EventCallback<AmortizedLoan> ValueChanged { get; set; }
 
     [Parameter]
-    public EventCallback<Expense> ValueDeleted { get; set; }
+    public EventCallback<AmortizedLoan> ValueDeleted { get; set; }
 
     async Task FieldChanged()
     {
