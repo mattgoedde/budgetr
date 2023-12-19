@@ -1,5 +1,6 @@
 @page "/budget/housing"
 
+@inject AuthenticationStateProvider authStateProvider
 @inject BudgetrDbContext db
 
 <FluentStack Orientation="@Orientation.Vertical">
@@ -44,6 +45,9 @@
         {
             if (Budget is null) return;
 
+            var oid = await authStateProvider.GetObjectId();
+            if (oid is null || oid == Guid.Empty) return;
+
             await db.AmortizedLoans.AddAsync(new AmortizedLoan
                 {
                     Name = "New Mortgage",
@@ -51,9 +55,10 @@
                     Balance = 0,
                     Principal = 0,
                     LoanType = LoanType.Mortgage,
-                    LoanTermMonths = 12,                    
+                    LoanTermMonths = 12,
                     Budget = Budget,
-                    BudgetId = Budget.Id
+                    BudgetId = Budget.Id,
+                    UserId = oid ?? throw new InvalidOperationException()
                 });
         }
         catch (Exception ex)
@@ -88,6 +93,9 @@
         {
             if (Budget is null) return;
 
+            var oid = await authStateProvider.GetObjectId();
+            if (oid is null || oid == Guid.Empty) return;
+
             await db.Expenses.AddAsync(new Expense
                 {
                     Name = "New Expense",
@@ -95,7 +103,8 @@
                     Frequency = Frequency.Monthly,
                     ExpenseType = ExpenseType.Housing,
                     Budget = Budget,
-                    BudgetId = Budget.Id
+                    BudgetId = Budget.Id,
+                    UserId = oid ?? throw new InvalidOperationException()
                 });
         }
         catch (Exception ex)

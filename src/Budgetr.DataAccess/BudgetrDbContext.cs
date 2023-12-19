@@ -1,19 +1,12 @@
 ﻿using Budgetr.Class.Entities;
 using Budgetr.Class.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Budgetr.DataAccess;
 
 public class BudgetrDbContext : DbContext
 {
-    private readonly ILogger<BudgetrDbContext>? _logger;
-
-    public BudgetrDbContext(DbContextOptions<BudgetrDbContext> options, ILogger<BudgetrDbContext>? logger = null)
-        : base(options)
-    {
-        _logger = logger;
-    }
+    public BudgetrDbContext(DbContextOptions<BudgetrDbContext> options) : base(options) { }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

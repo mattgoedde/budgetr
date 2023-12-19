@@ -1,0 +1,13 @@
+﻿
+<AuthorizeView>
+    <Authorized>
+        <a href="/profile"><FluentIcon Value="@(new Icons.Regular.Size16.Person())" Color="Color.Neutral" /></a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="/MicrosoftIdentity/Account/SignIn"><FluentButton IconEnd="@(new Icons.Regular.Size16.Person())" Color="Color.Neutral" /></a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}

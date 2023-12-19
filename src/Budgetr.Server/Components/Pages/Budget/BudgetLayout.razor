@@ -4,6 +4,7 @@
 
 @inject ILogger<BudgetLayout> logger
 @inject NavigationManager nav
+@inject AuthenticationStateProvider authStateProvider
 @inject BudgetrDbContext db
 
 <FluentToolbar Style="width: 100%;">
@@ -135,7 +136,11 @@
     {
         try
         {
+            var oid = await authStateProvider.GetObjectId();
+            if (oid is null || oid == Guid.Empty) return;
+
             var budgets = await db.Budgets
+                .Where(b => b.UserId == oid)
                 .Include(b => b.Incomes!)
                     .ThenInclude(i => i.Deductions)
                 .Include(b => b.AmortizedLoans)
@@ -169,7 +174,10 @@
     {
         try
         {
-            var newItem = new Budget { Name = DateTime.Today.ToString("yyyy MMMM") };
+            var oid = await authStateProvider.GetObjectId();
+            if (oid is null || oid == Guid.Empty) return;
+
+            var newItem = new Budget { Name = DateTime.Today.ToString("yyyy MMMM"), UserId = oid ?? throw new InvalidOperationException() };
 
             await db.Budgets.AddAsync(newItem);
             await db.SaveChangesAsync();

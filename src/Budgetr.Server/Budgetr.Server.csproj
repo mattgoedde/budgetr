@@ -17,11 +17,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.*-* " />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.0.0" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="2.16.0" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.16.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Budgetr.Class\Budgetr.Class.csproj" />
     <ProjectReference Include="..\Budgetr.DataAccess\Budgetr.DataAccess.csproj" />
     <ProjectReference Include="..\Budgetr.Logic\Budgetr.Logic.csproj" />
+    <ProjectReference Include="..\Budgetr.Shared\Budgetr.Shared.csproj" />
   </ItemGroup>
 </Project>

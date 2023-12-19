@@ -1,5 +1,6 @@
 @page "/budget/income"
 
+@inject AuthenticationStateProvider authStateProvider
 @inject BudgetrDbContext db
 
 <FluentToolbar Style="width: 100%;">
@@ -28,13 +29,17 @@
         {
             if (Budget is null) return;
 
+            var oid = await authStateProvider.GetObjectId();
+            if (oid is null || oid == Guid.Empty) return;
+
             await db.Incomes.AddAsync(new Income
             {
                 Name = "New Income",
                 Amount = 0,
                 Frequency = Frequency.Yearly,
                 Budget = Budget,
-                BudgetId = Budget.Id
+                BudgetId = Budget.Id,
+                UserId = oid ?? throw new InvalidOperationException()
             });
         }
         catch (Exception ex)

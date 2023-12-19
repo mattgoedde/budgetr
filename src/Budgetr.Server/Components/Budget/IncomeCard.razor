@@ -1,4 +1,5 @@
 ﻿@inject IDialogService dialogService
+@inject AuthenticationStateProvider authStateProvider
 
 @if (Value is not null)
 {
@@ -123,6 +124,9 @@
         {
             if (Value is null) return;
 
+            var oid = await authStateProvider.GetObjectId();
+            if (oid is null || oid == Guid.Empty) return;
+
             var item = new Deduction
             {
                 Name = "New Deduction",
@@ -132,7 +136,8 @@
                 Budget = Value.Budget,
                 BudgetId = Value.Budget.Id,
                 Income = Value,
-                IncomeId = Value.Id
+                IncomeId = Value.Id,
+                UserId = oid ?? throw new InvalidOperationException()
             };
 
             if (Value is null) return;
