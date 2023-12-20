@@ -1,7 +1,7 @@
 ﻿using Budgetr.Class.Entities;
 using Budgetr.Class.Enums;
 
-namespace Budgetr.Logic.Extensions;
+namespace Budgetr.Class.Extensions;
 
 public static class ExpenseExtensions
 {

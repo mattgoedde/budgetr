@@ -1,27 +1,66 @@
 @page "/budget/dashboard"
 
+<FluentToolbar Style="width: 100%">
+    <EnumSelect @bind-Value="@displayFrequency" />
+</FluentToolbar>
+<FluentAccordion>
+    <FluentAccordionItem Heading="Income">
+        <FluentStack Orientation="@Orientation.Vertical">
+            <FluentDataGrid Items="@displayBudget?.Incomes?.AsQueryable()">
+                <PropertyColumn Property="@(i => i.Name)" />
+                <PropertyColumn Property="@(i => i.Amount)" Format="C" Sortable="true" />
+                <PropertyColumn Property="@(i => i.PreTaxDeductions)" Format="C" Sortable="true"/>
+                <PropertyColumn Property="@(i => i.TaxDeductions)" Format="C" Sortable="true"/>
+                <PropertyColumn Property="@(i => i.PostTaxDeductions)" Format="C" Sortable="true"/>
+                <PropertyColumn Property="@(i => i.NetAmount)" Format="C" Sortable="true" />
+            </FluentDataGrid>
+            <FluentDivider />
+            <FluentStack Orientation="@Orientation.Horizontal">
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Amount</FluentLabel>
+                    @displayBudget?.Incomes?.Sum(i => i.Amount).ToString("C")
+                </FluentCard>
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Pre-Tax Deductions</FluentLabel>
+                    <FluentStack Orientation="@Orientation.Horizontal">
+                        @displayBudget?.Incomes?.Sum(i => i.PreTaxDeductions).ToString("C")
+                        <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                        @((displayBudget?.Incomes?.Sum(i => i.PreTaxDeductions) / displayBudget?.Incomes?.Sum(i => i.Amount))?.ToString("P"))
+                    </FluentStack>
+                </FluentCard>
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Taxes</FluentLabel>
+                    <FluentStack Orientation="@Orientation.Horizontal">
+                        @displayBudget?.Incomes?.Sum(i => i.TaxDeductions).ToString("C")
+                        <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                        @((displayBudget?.Incomes?.Sum(i => i.TaxDeductions) / displayBudget?.Incomes?.Sum(i => i.Amount))?.ToString("P"))
+                    </FluentStack>
+                </FluentCard>
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Post-Tax Deductions</FluentLabel>
+                    <FluentStack Orientation="@Orientation.Horizontal">
+                        @displayBudget?.Incomes?.Sum(i => i.PostTaxDeductions).ToString("C")
+                        <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                        @((displayBudget?.Incomes?.Sum(i => i.PostTaxDeductions) / displayBudget?.Incomes?.Sum(i => i.Amount))?.ToString("P"))
+                    </FluentStack>
+                </FluentCard>
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Net Income</FluentLabel>
+                    <FluentStack Orientation="@Orientation.Horizontal">
+                        @displayBudget?.Incomes?.Sum(i => i.NetAmount).ToString("C")
+                        <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                        @((displayBudget?.Incomes?.Sum(i => i.NetAmount) / displayBudget?.Incomes?.Sum(i => i.Amount))?.ToString("P"))
+                    </FluentStack>
+                </FluentCard>
+            </FluentStack>
+        </FluentStack>
+    </FluentAccordionItem>
+</FluentAccordion>
+
 @code {
     [CascadingParameter]
-    public Budget? budget { get; set; }
+    public Budget? Budget { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await RefreshDataAsync();
-    }
-
-    async Task RefreshDataAsync()
-    {
-        try
-        {
-
-        }
-        catch (Exception ex)
-        {
-
-        }
-        finally
-        {
-            StateHasChanged();
-        }
-    }
+    Frequency displayFrequency = Frequency.Monthly;
+    Budget? displayBudget => Budget?.To(displayFrequency);
 }
