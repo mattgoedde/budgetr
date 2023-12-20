@@ -1,19 +1,143 @@
-@page "/budget/transportation"
+@page "/budget/housing"
+
+@inject AuthenticationStateProvider authStateProvider
+@inject BudgetrDbContext db
+
+<FluentStack Orientation="@Orientation.Vertical">
+    <div style="width: 100%">
+        <FluentToolbar Style="width: 100%;">
+            <FluentLabel>Car Loans</FluentLabel>
+            <FluentSpacer />
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddLoanButton" />
+        </FluentToolbar>
+        <FluentStack Orientation="@Orientation.Vertical">
+            @foreach (var loan in Budget?.AmortizedLoans?.Where(l => l.LoanType == LoanType.Car)?.ToList() ?? Enumerable.Empty<AmortizedLoan>())
+            {
+                var l = loan;
+                <LoanCard @bind-Value="@l" @bind-Value:after="SaveAsync" ValueDeleted="DeleteLoanAsync" />
+            }
+        </FluentStack>
+    </div>
+    <FluentDivider />
+    <div style="width: 100%">
+        <FluentToolbar Style="width: 100%">
+            <FluentLabel>Transportation Expenses</FluentLabel>
+            <FluentSpacer />
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="AddExpenseButton"/>
+        </FluentToolbar>
+        <FluentStack Orientation="@Orientation.Vertical">
+            @foreach (var expense in Budget?.Expenses?.Where(e => e.ExpenseType == ExpenseType.Transportation)?.ToList() ?? Enumerable.Empty<Expense>())
+            {
+                var e = expense;
+                <ExpenseCard @bind-Value="@e" @bind-Value:after="SaveAsync" ValueDeleted="DeleteExpenseAsync" />
+            }
+        </FluentStack>
+    </div>
+</FluentStack>
 
 @code {
     [CascadingParameter]
-    public Budget? budget { get; set; }
+    public Budget? Budget { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await RefreshDataAsync();
-    }
-
-    async Task RefreshDataAsync()
+    async Task AddLoanButton()
     {
         try
         {
+            if (Budget is null) return;
 
+            var oid = await authStateProvider.GetObjectId();
+            if (oid is null || oid == Guid.Empty) return;
+
+            await db.AmortizedLoans.AddAsync(new AmortizedLoan
+                {
+                    Name = "New Car Loan",
+                    AnnualInterestRate = 0.05,
+                    Balance = 0,
+                    Principal = 0,
+                    LoanType = LoanType.Car,
+                    LoanTermMonths = 12,
+                    Budget = Budget,
+                    BudgetId = Budget.Id,
+                    UserId = oid ?? throw new InvalidOperationException()
+                });
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task DeleteLoanAsync(AmortizedLoan item)
+    {
+        try
+        {
+            db.AmortizedLoans.Remove(item);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task AddExpenseButton()
+    {
+        try
+        {
+            if (Budget is null) return;
+
+            var oid = await authStateProvider.GetObjectId();
+            if (oid is null || oid == Guid.Empty) return;
+
+            await db.Expenses.AddAsync(new Expense
+                {
+                    Name = "New Expense",
+                    Amount = 0,
+                    Frequency = Frequency.Monthly,
+                    ExpenseType = ExpenseType.Transportation,
+                    Budget = Budget,
+                    BudgetId = Budget.Id,
+                    UserId = oid ?? throw new InvalidOperationException()
+                });
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task DeleteExpenseAsync(Expense item)
+    {
+        try
+        {
+            db.Expenses.Remove(item);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            await SaveAsync();
+        }
+    }
+
+    async Task SaveAsync()
+    {
+        try
+        {
+            await db.SaveChangesAsync();
         }
         catch (Exception ex)
         {
