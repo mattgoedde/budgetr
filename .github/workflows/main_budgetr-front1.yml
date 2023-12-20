@@ -20,10 +20,10 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build ./src/Budgetr.Server/Budgetr.Server.csproj -c Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ./src/Budgetr.Server/Budgetr.Server.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -49,5 +49,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'budgetr-front1'
+          slot-name: Production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_51FE21443A8F47E8A3235C16744DD319 }}
           package: .
