@@ -53,6 +53,5 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.MapControllers();
-app.MapRazorPages();
 
 app.Run();
