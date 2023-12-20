@@ -3,11 +3,6 @@ using Budgetr.Server.Components;
 using Microsoft.EntityFrameworkCore;
 using Budgetr.DataAccess;
 using Budgetr.Logic.Extensions;
-using Microsoft.Identity.Web;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,18 +13,8 @@ builder.Services
         options.UseSqlServer(builder.Configuration.GetConnectionString("Budgetr"));
     })
     .AddBudgetrValidators()
-    .AddRazorComponents()
-    .AddInteractiveServerComponents().Services
-    .AddFluentUIComponents()
-    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C")).Services
-    .AddControllersWithViews(options =>
-    {
-        var policy = new AuthorizationPolicyBuilder()
-                      .RequireAuthenticatedUser()
-                      .Build();
-        options.Filters.Add(new AuthorizeFilter(policy));
-    }).AddMicrosoftIdentityUI();
+    .AddRazorComponents().AddInteractiveServerComponents().Services
+    .AddFluentUIComponents();
 
 var app = builder.Build();
 
@@ -42,9 +27,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
