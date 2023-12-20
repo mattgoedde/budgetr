@@ -1,32 +1,8 @@
 ﻿@page "/profile"
 @using System.Security.Claims
 
-@attribute [Authorize]
-
-@inject AuthenticationStateProvider authStateProvider
-
-<h3>Profile</h3>
-
-Hello, @user?.FullName
-<br />
-OID: @user?.ObjectId
-
-<a href="/MicrosoftIdentity/Account/SignOut">Sign Out</a>
-
-@code {
-    User? user;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await RefreshDataAsync();
-    }
-
-    async Task RefreshDataAsync()
-    {
-        try
-        {
-            user = await authStateProvider.GetUser();
-        }
-        catch { }
-    }
-}
+<AuthorizeView>
+    <Authorized>
+        Hello, @context.AsUser()?.Name! Your object id is <pre>@context.AsUser()?.ObjectId</pre>
+    </Authorized>
+</AuthorizeView>

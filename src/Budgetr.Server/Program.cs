@@ -3,6 +3,8 @@ using Budgetr.Server.Components;
 using Microsoft.EntityFrameworkCore;
 using Budgetr.DataAccess;
 using Budgetr.Logic.Extensions;
+using Microsoft.Identity.Web.UI;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,22 @@ builder.Services
     })
     .AddBudgetrValidators()
     .AddRazorComponents().AddInteractiveServerComponents().Services
-    .AddFluentUIComponents();
+    .AddFluentUIComponents()
+    .AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAd")
+    .EnableTokenAcquisitionToCallDownstreamApi(builder.Configuration["DownstreamApi:Scopes"]?.Split(' '))
+    .AddDownstreamWebApi("GraphApi", builder.Configuration.GetSection("GraphApi"))
+    .AddInMemoryTokenCaches().Services
+    .AddControllersWithViews()
+    .AddMicrosoftIdentityUI();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = options.DefaultPolicy;
+});
+
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor()
+                .AddMicrosoftIdentityConsentHandler();
 
 var app = builder.Build();
 
@@ -27,9 +44,13 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
+
+app.UseRouting();
 app.UseAntiforgery();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
