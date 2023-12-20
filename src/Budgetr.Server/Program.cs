@@ -22,7 +22,8 @@ builder.Services
     .AddDownstreamWebApi("GraphApi", builder.Configuration.GetSection("GraphApi"))
     .AddInMemoryTokenCaches().Services
     .AddControllersWithViews()
-    .AddMicrosoftIdentityUI();
+    .AddMicrosoftIdentityUI().Services
+    .AddLocalization();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -43,8 +44,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseRequestLocalization(options =>
+{
+    options.SetDefaultCulture("en-US");
+});
 
 app.UseRouting();
 app.UseAntiforgery();
