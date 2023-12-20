@@ -5,12 +5,14 @@
 {
     <FluentCard AreaRestricted="false">
         <FluentToolbar Style="width: 100%;">
+            <EnumSelect Label="Display" @bind-Value="@displayFrequency" />
             <FluentSpacer />
             <FluentButton OnClick="DeleteButton">
                 <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
             </FluentButton>
         </FluentToolbar>
-        <FluentStack Orientation="@Orientation.Horizontal">
+        <FluentStack Orientation="@Orientation.Horizontal" HorizontalAlignment="@HorizontalAlignment.Center">
+
             <FluentStack Orientation="@Orientation.Vertical">
                 <div>
                     <FluentTextField Label="Name" @bind-Value="@Value.Name" @bind-Value:after="FieldChanged" />
@@ -24,6 +26,46 @@
                     <EnumSelect Label="Frequency" @bind-Value="@Value.Frequency" @bind-Value:after="FrequencyChanged" />
                 </div>
             </FluentStack>
+
+            <FluentStack Orientation="@Orientation.Vertical">
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Gross</FluentLabel>
+                    @displayIncome?.Amount.ToString("C")
+                </FluentCard>
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Pre-Tax Deductions</FluentLabel>
+                    <FluentStack Orientation="@Orientation.Horizontal">
+                        @displayIncome?.PreTaxDeductions.ToString("C")
+                        <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                        @((displayIncome?.PreTaxDeductions / displayIncome?.Amount)?.ToString("P"))
+                    </FluentStack>
+                </FluentCard>
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Taxes</FluentLabel>
+                    <FluentStack Orientation="@Orientation.Horizontal">
+                        @displayIncome?.TaxDeductions.ToString("C")
+                        <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                        @((displayIncome?.TaxDeductions / displayIncome?.Amount)?.ToString("P"))
+                    </FluentStack>
+                </FluentCard>
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Post-Tax Deductions</FluentLabel>
+                    <FluentStack Orientation="@Orientation.Horizontal">
+                        @displayIncome?.PostTaxDeductions.ToString("C")
+                        <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                        @((displayIncome?.PostTaxDeductions / displayIncome?.Amount)?.ToString("P"))
+                    </FluentStack>
+                </FluentCard>
+                <FluentCard>
+                    <FluentLabel Typo="Typography.H6">Net</FluentLabel>
+                    <FluentStack Orientation="@Orientation.Horizontal">
+                        @displayIncome?.NetAmount.ToString("C")
+                        <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                        @((displayIncome?.NetAmount / displayIncome?.Amount)?.ToString("P"))
+                    </FluentStack>
+                </FluentCard>
+            </FluentStack>
+
             <FluentStack Orientation="@Orientation.Vertical">
                 <FluentToolbar>
                     <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="DeductionAddButton" />
@@ -31,6 +73,9 @@
                 <FluentDataGrid Items="@Value.Deductions?.AsQueryable()" Style="width: 100%;">
                     <PropertyColumn Title="Name" Property="@(d => d.Name)" />
                     <PropertyColumn Title="Amount" Property="@(d => d.Amount)" Format="c" />
+                    <TemplateColumn Title="%">
+                        @((context.Amount / Value.Amount).ToString("P"))
+                    </TemplateColumn>
                     <PropertyColumn Title="Type" Property="@(d => d.DeductionType)" />
                     <TemplateColumn>
                         <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => DeductionEditButton(context))"/>
@@ -63,6 +108,9 @@
 
     [Parameter]
     public EventCallback<Income> ValueDeleted { get; set; }
+
+    Income? displayIncome => Value?.To(displayFrequency);
+    Frequency displayFrequency = Frequency.Yearly;
 
     async Task FrequencyChanged()
     {
