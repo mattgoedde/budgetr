@@ -1,0 +1,28 @@
+﻿<FluentStack Orientation="@Orientation.Vertical">
+    <FluentDataGrid Items="@Budget?.AmortizedLoans?.AsQueryable()">
+        <PropertyColumn Property="@(i => i.Name)" />
+        <PropertyColumn Property="@(i => i.Principal)" Format="C" Sortable="true"/>
+        <PropertyColumn Property="@(i => i.Balance)" Format="C" Sortable="true"/>
+        <PropertyColumn Property="@(i => i.AnnualInterestRate)" Format="P3" Sortable="true" Title="Annual Interest Rate"/>
+        <TemplateColumn Title="Payment" Sortable="true">
+            @((context.NextPayment().Total * 12 / (int)Frequency).ToString("C"))
+        </TemplateColumn>
+        <TemplateColumn Title="Interest Cost" Sortable="true">
+            @(context.AllPayments().Sum(l => l.Interest).ToString("C"))
+        </TemplateColumn>
+        <TemplateColumn Title="Total Cost" Sortable="true">
+            @(context.AllPayments().Sum(l => l.Total).ToString("C"))
+        </TemplateColumn>
+        <TemplateColumn Title="Remaining Cost" Sortable="true">
+            @(context.RemainingPayments().Sum(l => l.Interest).ToString("C"))
+        </TemplateColumn>
+    </FluentDataGrid>
+</FluentStack>
+
+@code {
+    [Parameter]
+    public Budget? Budget { get; set; }
+
+    [Parameter]
+    public Frequency Frequency { get; set; } = Frequency.Monthly;
+}

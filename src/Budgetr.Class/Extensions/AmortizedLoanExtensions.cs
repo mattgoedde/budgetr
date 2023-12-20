@@ -36,9 +36,7 @@ public static class AmortizedLoanExtensions
         return principalPayment;
     }
 
-    public static LoanPayment NextPayment(this AmortizedLoan amortizedLoan) => amortizedLoan.NextPayment(DateTime.Today);
-
-    public static LoanPayment NextPayment(this AmortizedLoan amortizedLoan, DateTime date)
+    public static LoanPayment NextPayment(this AmortizedLoan amortizedLoan)
     {
         if (double.IsNaN(amortizedLoan.Principal) ||
             double.IsNaN(amortizedLoan.Balance) ||
@@ -59,13 +57,10 @@ public static class AmortizedLoanExtensions
         {
             Interest = totalPayment - principalPayment,
             Principal = principalPayment,
-            Period = date.AddMonths(1)
         };
     }
 
-    public static IEnumerable<LoanPayment> AllPayments(this AmortizedLoan amortizedLoan) => amortizedLoan.AllPayments(DateTime.Today);
-
-    public static IEnumerable<LoanPayment> AllPayments(this AmortizedLoan amortizedLoan, DateTime startDate)
+    public static IEnumerable<LoanPayment> AllPayments(this AmortizedLoan amortizedLoan)
     {
         if (double.IsNaN(amortizedLoan.Principal) ||
             double.IsNaN(amortizedLoan.Balance) ||
@@ -81,12 +76,10 @@ public static class AmortizedLoanExtensions
             AnnualInterestRate = amortizedLoan.AnnualInterestRate,
             LoanTermMonths = amortizedLoan.LoanTermMonths
         };
-        return amortizedLoan.RemainingPayments(startDate);
+        return amortizedLoan.RemainingPayments();
     }
 
-    public static IEnumerable<LoanPayment> RemainingPayments(this AmortizedLoan amortizedLoan) => amortizedLoan.RemainingPayments(DateTime.Today);
-
-    public static IEnumerable<LoanPayment> RemainingPayments(this AmortizedLoan amortizedLoan, DateTime startDate)
+    public static IEnumerable<LoanPayment> RemainingPayments(this AmortizedLoan amortizedLoan)
     {
         if (amortizedLoan is null) 
             yield break;
@@ -105,12 +98,9 @@ public static class AmortizedLoanExtensions
         if (amortizedLoan.AnnualInterestRate < 0) throw new ArgumentException("Annual Interest Rate must be positive");
         if (amortizedLoan.LoanTermMonths < 0) throw new ArgumentException("Loan Term Months must be positive");
 
-        var previousDate = startDate;
-
         while (amortizedLoan.Balance > 0)
         {
-            var nextPayment = amortizedLoan.NextPayment(previousDate);
-            previousDate = nextPayment.Period;
+            var nextPayment = amortizedLoan.NextPayment();
 
             if (nextPayment.Principal > amortizedLoan.Balance)
             {

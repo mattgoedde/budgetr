@@ -22,6 +22,9 @@
                 </FluentNumberField>
             </div>
             <div>
+                <FluentNumberField Label="Loan Term (months)" Step="1" HideStep="true" @bind-Value="@Value.LoanTermMonths" @bind-Value:after="FieldChanged" />
+            </div>
+            <div>
                 <FluentStack Orientation="@Orientation.Vertical">
                     <FluentNumberField Label="Annual Interest Rate" Step="0.00001" HideStep="true" @bind-Value="@Value.AnnualInterestRate" @bind-Value:after="FieldChanged" />
                     <small>@Value.AnnualInterestRate.ToString("P3")</small>
