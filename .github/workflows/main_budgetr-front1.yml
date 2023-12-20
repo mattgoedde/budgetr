@@ -49,6 +49,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'budgetr-front1'
-          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_51FE21443A8F47E8A3235C16744DD319 }}
           package: .
