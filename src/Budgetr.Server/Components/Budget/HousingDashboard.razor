@@ -1,22 +1,44 @@
 ﻿<FluentStack Orientation="@Orientation.Vertical">
-    <FluentDataGrid Items="@Budget?.AmortizedLoans?.AsQueryable()">
-        <PropertyColumn Property="@(i => i.Name)" />
-        <PropertyColumn Property="@(i => i.Principal)" Format="C" Sortable="true"/>
-        <PropertyColumn Property="@(i => i.Balance)" Format="C" Sortable="true"/>
-        <PropertyColumn Property="@(i => i.AnnualInterestRate)" Format="P3" Sortable="true" Title="Annual Interest Rate"/>
-        <TemplateColumn Title="Payment" Sortable="true">
-            @((context.NextPayment().Total * 12 / (int)Frequency).ToString("C"))
-        </TemplateColumn>
-        <TemplateColumn Title="Interest Cost" Sortable="true">
-            @(context.AllPayments().Sum(l => l.Interest).ToString("C"))
-        </TemplateColumn>
-        <TemplateColumn Title="Total Cost" Sortable="true">
-            @(context.AllPayments().Sum(l => l.Total).ToString("C"))
-        </TemplateColumn>
-        <TemplateColumn Title="Remaining Cost" Sortable="true">
-            @(context.RemainingPayments().Sum(l => l.Interest).ToString("C"))
-        </TemplateColumn>
-    </FluentDataGrid>
+    <FluentStack Orientation="@Orientation.Horizontal">
+        <FluentDataGrid Items="@Budget?.AmortizedLoans?.AsQueryable()">
+            <PropertyColumn Property="@(i => i.Name)" />
+            <PropertyColumn Property="@(i => i.Principal)" Format="C" Sortable="true"/>
+            <PropertyColumn Property="@(i => i.Balance)" Format="C" Sortable="true"/>
+            <PropertyColumn Property="@(i => i.AnnualInterestRate)" Format="P3" Sortable="true" Title="Annual Interest Rate"/>
+            <TemplateColumn Title="Payment" Sortable="true">
+                @((context.NextPayment().Total * 12 / (int)Frequency).ToString("C"))
+            </TemplateColumn>
+            <TemplateColumn Title="Interest Cost" Sortable="true">
+                @(context.AllPayments().Sum(l => l.Interest).ToString("C"))
+            </TemplateColumn>
+            <TemplateColumn Title="Total Cost" Sortable="true">
+                @(context.AllPayments().Sum(l => l.Total).ToString("C"))
+            </TemplateColumn>
+            <TemplateColumn Title="Remaining Cost" Sortable="true">
+                @(context.RemainingPayments().Sum(l => l.Interest).ToString("C"))
+            </TemplateColumn>
+        </FluentDataGrid>
+        <FluentDivider />
+        <FluentDataGrid Items="@Budget?.Expenses?.Where(e => e.ExpenseType == ExpenseType.Housing)?.AsQueryable()">
+            <PropertyColumn Property="@(i => i.Name)" />
+            <PropertyColumn Property="@(i => i.Amount)" Format="C" Sortable="true"/>
+        </FluentDataGrid>
+    </FluentStack>
+    <FluentDivider />
+    <FluentStack Orientation="@Orientation.Horizontal">
+        <FluentCard>
+            <FluentLabel Typo="Typography.H6">Total Housing</FluentLabel>
+            <FluentStack Orientation="@Orientation.Horizontal">
+                @((totalHousing).ToString("C"))
+                <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                @((totalHousing / grossIncome).ToString("P"))
+            </FluentStack>
+        </FluentCard>
+        <FluentCard>
+            <FluentLabel Typo="Typography.H6">Net less Housing</FluentLabel>
+            @(netLessHousing.ToString("C"))
+        </FluentCard>
+    </FluentStack>
 </FluentStack>
 
 @code {
@@ -25,4 +47,11 @@
 
     [Parameter]
     public Frequency Frequency { get; set; } = Frequency.Monthly;
+
+    double totalHousingExpenses => Budget?.Expenses?.Where(e => e.ExpenseType == ExpenseType.Housing).Sum(e => e.Amount) ?? 0;
+    double totalHousingLoans => (Budget?.AmortizedLoans?.Where(l => l.LoanType == LoanType.Mortgage)?.Sum(l => l.NextPayment().Total) ?? 0) * 12 / (int)Frequency;
+    double totalHousing => totalHousingLoans + totalHousingExpenses;
+    double grossIncome => Budget?.Incomes?.Sum(i => i.Amount) ?? 0;
+    double netIncome => Budget?.Incomes?.Sum(i => i.NetAmount) ?? 0;
+    double netLessHousing => netIncome - totalHousing;
 }

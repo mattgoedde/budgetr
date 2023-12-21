@@ -1,11 +1,14 @@
 ﻿<FluentStack Orientation="@Orientation.Vertical">
     <FluentDataGrid Items="@Budget?.Incomes?.AsQueryable()">
         <PropertyColumn Property="@(i => i.Name)" />
-        <PropertyColumn Property="@(i => i.Amount)" Format="C" Sortable="true" />
-        <PropertyColumn Property="@(i => i.PreTaxDeductions)" Format="C" Sortable="true" />
-        <PropertyColumn Property="@(i => i.TaxDeductions)" Format="C" Sortable="true" />
-        <PropertyColumn Property="@(i => i.PostTaxDeductions)" Format="C" Sortable="true" />
-        <PropertyColumn Property="@(i => i.NetAmount)" Format="C" Sortable="true" />
+        <PropertyColumn Property="@(i => i.Amount)" Title="Gross" Format="C" Sortable="true" />
+        <PropertyColumn Property="@(i => i.PreTaxDeductions)" Title="Pre-Tax Deductions" Format="C" Sortable="true" />
+        <PropertyColumn Property="@(i => i.TaxDeductions)" Title="Taxes" Format="C" Sortable="true" />
+        <PropertyColumn Property="@(i => i.PostTaxDeductions)" Title="Post-Tax Deductions" Format="C" Sortable="true" />
+        <TemplateColumn Title="Total Deductions" Sortable="true">
+            @context.Deductions?.Sum(d => d.Amount).ToString("C")
+        </TemplateColumn>
+        <PropertyColumn Property="@(i => i.NetAmount)" Title="Net" Format="C" Sortable="true" />
     </FluentDataGrid>
     <FluentDivider />
     <FluentStack Orientation="@Orientation.Horizontal">
@@ -35,6 +38,14 @@
                 @Budget?.Incomes?.Sum(i => i.PostTaxDeductions).ToString("C")
                 <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
                 @((Budget?.Incomes?.Sum(i => i.PostTaxDeductions) / Budget?.Incomes?.Sum(i => i.Amount))?.ToString("P"))
+            </FluentStack>
+        </FluentCard>
+        <FluentCard>
+            <FluentLabel Typo="Typography.H6">Total Deductions</FluentLabel>
+            <FluentStack Orientation="@Orientation.Horizontal">
+                @Budget?.Incomes?.SelectMany(i => i.Deductions ?? Enumerable.Empty<Deduction>()).Sum(i => i.Amount).ToString("C")
+                <FluentDivider Style="height: 1rem;" Role="DividerRole.Presentation" Orientation="Orientation.Vertical"></FluentDivider>
+                @((Budget?.Incomes?.SelectMany(i => i.Deductions ?? Enumerable.Empty<Deduction>()).Sum(i => i.Amount) / Budget?.Incomes?.Sum(i => i.Amount))?.ToString("P"))
             </FluentStack>
         </FluentCard>
         <FluentCard>
